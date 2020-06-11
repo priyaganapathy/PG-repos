@@ -1,0 +1,160 @@
+html {
+    height: 100%;
+    min-height: 100%;
+}
+#header {
+    display: grid;
+    grid-template-columns: 50px 1fr 50px 50px 50px;
+    grid-template-rows: 25px;
+    grid-template-areas:
+    "about . gmail menuIcon signIn";  
+    margin: 0 10px; 
+}
+
+a {
+    text-decoration: none;
+    color: rgba(0,0,0,0.87);
+    font-size: 13px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#about {
+    grid-area: about;
+    justify-self: center;
+    align-self: center;
+}
+#gmail {
+    grid-area: gmail;
+    justify-self: center;
+    align-self: center;
+}
+#menuIcon {
+    grid-area: menuIcon;
+    justify-self: center;
+    align-self: center;
+}
+#signIn {
+    grid-area: signIn;
+    justify-self: center;
+    align-self: center;
+    background-color: #4683ea;
+    height: 30px;
+    width: 70px;
+    line-height: 30px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    border: 1px solid #4285f4;
+}
+#main {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 250px 50px 50px 50px 150px;
+    grid-template-areas: 
+    ". googleLogo ."
+    ". inputText ."
+    ". flexButton ."
+    ". doodlemsg ."
+    ". lang ." ;
+    }
+
+#googleLogo {
+    grid-area: googleLogo;
+    justify-self: center;
+    align-self: flex-end;
+}
+#inputText {
+    grid-area: inputText;
+    height: 30px;
+    width: 500px;
+    justify-self: center;
+    align-self: center;
+    border: 1px solid rgba(0,0,0,0.151);
+    border-radius: 30px;
+    box-shadow: 1px 1px 3px grey;
+    }
+#inputText:hover{
+    box-shadow: 1px 1px 5px grey;
+}
+#button-holder{
+    justify-self: center;
+    text-align: end;
+
+}
+#flexButton{
+    display: flexbutton;
+    grid-area: flexButton;
+    justify-self: center;
+    align-self: center;
+    text-shadow: grey;
+    }
+#searchButton{
+    border: none;
+    font-size: 13px;
+    color: #5f6368;
+    margin-right: 25px;
+    padding: 10px 15px 10px 15px;
+    border-radius: 5px;
+}
+#luckyButton{
+    border: none;
+    font-size: 13px;
+    color: #5f6368;
+    margin-right: 25px;
+    padding: 10px 15px 10px 15px;
+ }
+#searchButton:hover{
+     border: 1px solid rgba(0,0,0,0.87)
+ }
+#luckyButton:hover{
+    border: 1px solid rgba(0,0,0,0.87)
+}
+#doodlemsg{
+    grid-area: doodlemsg;
+    justify-self: center;
+    align-self: center;
+    color: rgb(26, 26, 247);
+    font-size: 13px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#lang{
+    grid-area: lang;
+    justify-self: center;
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#footer {
+    display: grid;
+    justify-self: center;
+    align-self: center;
+    grid-template-columns: 100px 100px 200px 1fr 70px 70px 70px;
+    grid-template-rows: 20px;
+    grid-template-areas:
+    ". . . . . . ."
+    "advertising bussiness home . privacy terms settings";   
+    background-color: rgb(235, 235, 235);
+}
+#advertising     
+{
+    grid-area:advertising ;
+}
+#bussiness       
+{
+    grid-area:bussiness ;
+}
+#home
+{
+    grid-area:home;
+}
+#privacy         
+{
+    grid-area:privacy ;
+}
+#terms           
+{
+    grid-area:terms ;
+}
+#settings        
+{
+    grid-area:settings ;
+}
