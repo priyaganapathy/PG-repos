@@ -1,0 +1,308 @@
+{
+	"info": {
+		"_postman_id": "ce11b84d-b8eb-4a8b-90ce-9e28ceaf0eea",
+		"name": "Jira",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "JQL",
+			"item": [
+				{
+					"name": "GET all issue from project=RA",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"jql\":\"project=RA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{env_server}}/search",
+							"host": [
+								"{{env_server}}"
+							],
+							"path": [
+								"search"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "JQL- Q1"
+					},
+					"response": []
+				},
+				{
+					"name": "Create an issue in Jira",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "370fe3a4-a350-4fae-83d8-2d01396ef30a",
+								"exec": [
+									"var respGen=pm.response.json();\r",
+									"console.log(respGen);\r",
+									"var id_local=respGen.id;\r",
+									"console.log(\"Newly generated issue id\"+ id_local);\r",
+									"pm.globals.set(\"gbl_id\", id_local);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fields\": {\r\n        \"project\": {\r\n            \"key\": \"MAR\"\r\n        },\r\n        \"summary\": \"Issue raised using API\",\r\n        \"description\": \"Creating an issue using project keys and issue type names using the REST API\",\r\n        \"issuetype\": {\r\n            \"name\": \"Bug\"\r\n        }\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{env_server}}/issue",
+							"host": [
+								"{{env_server}}"
+							],
+							"path": [
+								"issue"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add attachment for the newly generated issue",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "37f56fa0-0986-4a6f-a254-134a9a75eda6",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fields\": {\r\n        \"project\": {\r\n            \"key\": \"MAR\"\r\n        },\r\n        \"attachment\":[ {\r\n            \"self\": \"{{env_server}}/issue/attachment/{{gbl_id}}\",\r\n            \"id\": \"{{gbl_id}}\",\r\n            \"filename\": \"JIRA API Documention.docx\"\r\n        }]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{env_server}}/issue/{{gbl_id}}",
+							"host": [
+								"{{env_server}}"
+							],
+							"path": [
+								"issue",
+								"{{gbl_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update issue description",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://api-may2020.atlassian.net/rest/api/2/issuetype",
+							"protocol": "https",
+							"host": [
+								"api-may2020",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"2",
+								"issuetype"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Select issue randomly",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api-may2020.atlassian.net/rest/api/2/issuetype",
+							"protocol": "https",
+							"host": [
+								"api-may2020",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"2",
+								"issuetype"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "10005",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete random issue",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://api-may2020.atlassian.net/rest/api/2/issuetype",
+							"protocol": "https",
+							"host": [
+								"api-may2020",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"2",
+								"issuetype"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "10005",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "kEJxzmhkQzvdeP8iysWN2D1B",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "rajalakshmi.govindarajan@testleaf.com",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "52741688-94b7-41c0-84cf-21c049020f12",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5e717681-b9b1-4c19-803f-366fd4230d50",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "4e8456e2-4ae9-4cc0-8d83-79a7f82ac2ba",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "da1db8d1-b560-4cc5-8935-1825e4658094",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "6117127a-c870-4afd-b7b4-dea52270b168",
+			"key": "coll_issuetype",
+			"value": "issuetype"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
