@@ -1,0 +1,178 @@
+{
+	"info": {
+		"_postman_id": "8dd2fb0d-497a-4fcd-b8a2-bffb75de1c4f",
+		"name": "Paycheck",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Subscription",
+			"item": [
+				{
+					"name": "Create New Subscription",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "sk_test_28d0f32494534790462219dc1b95e2dc6a27d4ef",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"customer\":\"CUS_r5lo9bfc6xh42on\",\r\n\"plan\":\"PLN_gx2wn530m0i3w3m\"\r\n}"
+						},
+						"url": {
+							"raw": "https://api.paystack.co/subscription",
+							"protocol": "https",
+							"host": [
+								"api",
+								"paystack",
+								"co"
+							],
+							"path": [
+								"subscription"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create payment page",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "sk_test_28d0f32494534790462219dc1b95e2dc6a27d4ef",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Trial3\",\r\n    \"interval\":\"monthly\",\r\n    \"amount\":\"500000\",\r\n    \"plan\":\"12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.paystack.co/page",
+					"protocol": "https",
+					"host": [
+						"api",
+						"paystack",
+						"co"
+					],
+					"path": [
+						"page"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all payment pages",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "sk_test_28d0f32494534790462219dc1b95e2dc6a27d4ef",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://api.paystack.co/page",
+					"protocol": "https",
+					"host": [
+						"api",
+						"paystack",
+						"co"
+					],
+					"path": [
+						"page"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get newly payment page",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "sk_test_28d0f32494534790462219dc1b95e2dc6a27d4ef",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://api.paystack.co/page/?plan_code=12345",
+					"protocol": "https",
+					"host": [
+						"api",
+						"paystack",
+						"co"
+					],
+					"path": [
+						"page",
+						""
+					],
+					"query": [
+						{
+							"key": "plan_code",
+							"value": "12345"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
