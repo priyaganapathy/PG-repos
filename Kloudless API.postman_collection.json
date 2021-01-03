@@ -1,0 +1,4092 @@
+{
+	"info": {
+		"_postman_id": "f18521ff-9a5e-4ec2-b109-c21c7982b825",
+		"name": "Kloudless API",
+		"description": "\nThank you for checking out the Kloudless Postman collection!\n\nKloudless is a unified API platform that enables you to quickly integrate with\nseveral cloud services with a single implementation.\n\nThis collection contains endpoints that allow you to interact with a myriad of\ndifferent cloud storage services (Storage endpoints), as well as endpoints\nutilized in managing the Kloudless application and its users (Core endpoints).\n\nThis collection works in conjunction with Postman's environment variables\nto help facilitate usage. The first method requires you to go through the OAuth\n2.0 flow via the Kloudless API Explorer, and copying the generated token\ninto the Postman environment variables. The second method utilizes Postman's\nbuilt-in OAuth 2.0 implementation. This may be helpful if you are familiar with\nPostman collections, and also allows you to generate new Bearer Tokens without\nnavigating to the Kloudless website.\n\nTo get started, you will need a Kloudless account. If\nyou don't have one, you can [sign up for one\nhere](https://developers.kloudless.com/account/signup). If you already have an\naccount, you can [log in](https://developers.kloudless.com/account/login) to get\nstarted.\n\nTo use Kloudless's API Explorer to generate a Bearer Token, navigate to [the API\nExplorer](https://developers.kloudless.com/api-explorer/), and connect an\naccount to your Kloudless app. This will supply you with a Bearer Token. Copy\nand paste this value into the Kloudless environment, as the 'Current Value' for\nthe `{{accessToken}}` variable. Now any API request made from the Postman\napplication will include the Bearer Token.\n\nThe second method will require you to navigate to the Authorization tab for the\nKloudless collection. Right click on the collection, select 'Edit', and then\nselect the Authorization tab. You should see a section that looks like this.\n\n---\nLink to auth image\n---\n\nClick on the Orange 'Get New Access Token' button. You will see a small form\nasking for several pieces of information. It should look something like this:\n\n---\nLink to oauth2 image\n---\n\nHere is a breakdown of what you will need to enter on the form:\n\n* **Token Name** - The name you choose does not have an impact on the token's\nviability, choose whatever name you see fit. Keep in mind, you will be able to\ngenerate and save many different tokens so descriptive names can be useful.\n* **Grant Type** - Select 'Implicit'.\n* **Callback URL** - This must be a valid URL format. You will also need to add\nthis to the list of registered Redirect URIs for your Kloudless application. You\ncan add that on the [Details page for your Kloudless\nApp](https://developers.kloudless.com/applications/*/details). Note: You can use the depicted URL in your app, just be sure to add it to both the Postman collection and the Kloudless application's list of redirect URIs.\n* **Auth URL** - Add the Kloudless OAuth URL,\n`https://api.kloudless.com/v1/oauth`.\n* **Client ID** - Use the Kloudless App ID for this value. This can also be found\non the [Details page for your Kloudless\nApp](https://developers.kloudless.com/applications/*/details).\n* **Scope** - Setting this to `any:all.all` will prompt the user to select the\ncloud service to authenticate. You can this to just the services you need by\nsetting the scope as defined on our documentation of the [Oauth\nflow](https://developers.kloudless.com/docs/v1/authentication#oauth-2.0-first-leg).\n* **State** - You can set this value yourself, however Postman has some built in\ndynamic variables that can assign a random integer here, `{{$randomInt}}`.\n* **Client Authentication** - Select 'Use as Basic Header'.\n\nOnce you have added the required information\n\nThat's it! Any API requests you now make via the Postman collection will\nautomatically use this value to authorize access. If this is your first time\nusing Kloudless, there is a small collection of API calls to quickly walk\nthrough some basic functionality.\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Started: Storage API",
+			"item": [
+				{
+					"name": "1. Get a list of items in the root folder",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var respJson = pm.response.json();\r",
+									"var i = Math.floor(Math.random() * 10);\r",
+									"i = parseInt(i);\r",
+									"var localName = respJson.objects[i].name;\r",
+									"//pm.globals.set(\"gbl_name_ran\" , localName);\r",
+									"console.log(\"new created random_accountName   \"  +   localName);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "MLppPoL2wyOTSSZ9HLVUA1WRWXBYKE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "page",
+									"value": "",
+									"description": "Integer. Which page of items to retrieve.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "page_size",
+									"value": "",
+									"description": "Integer. Number of items to return per page.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "recursive",
+									"value": "",
+									"description": "Boolean. List all contents within this folder.",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base-url}}/accounts/me/storage/folders/root/contents/?",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"accounts",
+								"me",
+								"storage",
+								"folders",
+								"root",
+								"contents",
+								""
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						},
+						"description": "The folder ID `root` can be used to list the contents of the root folder.\n\n\n[API Reference](https://developers.kloudless.com/docs/v1/storage#folders-retrieve-folder-contents)"
+					},
+					"response": []
+				},
+				{
+					"name": "2. Download a file's contents",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/accounts/me/storage/files/$FILE_ID/contents/",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"accounts",
+								"me",
+								"storage",
+								"files",
+								"$FILE_ID",
+								"contents",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Enable Events endpoint",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/accounts/me/events?cursor=after-auth",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"accounts",
+								"me",
+								"events"
+							],
+							"query": [
+								{
+									"key": "cursor",
+									"value": "after-auth",
+									"description": "`string` (optional)\nThe last cursor in the event stream that your application has seen. The cursor can also be set to `after-auth`, which will retrieve events that have occurred after the account was connected. This is useful if prior events are unnecessary.\n\nThis parameter cannot be used with `from` and `until`. Subsequent cursors returned by a request using those parameters will be restricted to the time range specified in the first request.\n\nIn addition, the latest `upstream_cursor` can be provided as a cursor to retrieve any events after that point in the event stream."
+								},
+								{
+									"key": "page_size",
+									"value": "1000",
+									"description": "`number` (optional)\nNumber of events in the stream to return, if available. The `page_size` must be greater than or equal to `1` and less than or equal to `1000`. Treated as advisory.",
+									"disabled": true
+								},
+								{
+									"key": "from",
+									"value": "",
+									"description": "`string` (optional)\nAn ISO-8601 string specifying the time of the oldest event in the range to return (inclusive). Can be used without `until`.",
+									"disabled": true
+								},
+								{
+									"key": "until",
+									"value": "",
+									"description": "`string` (optional)\nAn ISO-8601 string specifying the latest time prior to which to return events (exclusive). Must be used along with `from`. Non-overlapping queries can be performed since the event times are in the range [`from`, `until`). Future cursor values returned are limited in range to the `until` value provided in the first request.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/events#events-list-events)\n\nIn order to use the events endpoints, you will need to enable event collection via your Kloudless application [Events Configuration tab](https://developers.kloudless.com/applications/*/events-details).\n\nOnce you have clicked both event collection boxes, hit Save. Your app will now be able to use the Events endpoints.\n\nPlease note, events will not be displayed retro-actively. In order to see events using this endpoint, you will need to perform some sort of action on files or folders in the connected account.\n\nThe next API request is a file upload. Once you have completed the POST request successfully, try this endpoint and see what is returned!"
+					},
+					"response": []
+				},
+				{
+					"name": "4. Upload a file",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/octet-stream"
+							},
+							{
+								"description": "JSON String. JSON string with the parent_id and name.",
+								"key": "X-Kloudless-Metadata",
+								"type": "text",
+								"value": "{\"parent_id\": \"root\", \"name\": \"test.txt\"}"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": ""
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/accounts/me/storage/files/?",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"accounts",
+								"me",
+								"storage",
+								"files",
+								""
+							],
+							"query": [
+								{
+									"key": "overwrite",
+									"value": "false",
+									"description": "Specifies whether to overwrite existing files",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Upload a test text file. Change its name via the X-Kloudless-Metadata header.\n\nRequired Headers:\n\n* X-Kloudless-Metadata: A JSON string, with the attributes:\n  * parent_id: The ID of the folder to upload the file to.\n  * name: The name of the file being uploaded.\n\n\n[API Docs to upload a file](https://developers.kloudless.com/docs/v1/storage#files-upload-a-file)"
+					},
+					"response": []
+				},
+				{
+					"name": "5. Search for your file",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/accounts/me/storage/search/?q=",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"accounts",
+								"me",
+								"storage",
+								"search",
+								""
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "",
+									"description": "`string`\nTerms to search cloud storage for."
+								},
+								{
+									"key": "lang",
+									"value": "keyword",
+									"description": "`string` (optional)\nType of Search query. `keyword` is the default and will search the service for specific terms, using the service’s capabilities. `raw` will search the service using the service’s own query language. `cmis` is intended for CMIS queries.",
+									"disabled": true
+								},
+								{
+									"key": "parents",
+									"value": "",
+									"description": "`string` (optioanl)\nFolder IDs to search on, delimited by commas.",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "`integer` (optional)\nThe page to return of a paginated list.",
+									"disabled": true
+								},
+								{
+									"key": "page_size",
+									"value": "",
+									"description": "`integer` (optional)\nNumber of results to return per page.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#locate-files-search)"
+					},
+					"response": []
+				}
+			],
+			"description": "This section walks through a couple quick API calls you can make to get aquainted with the Kloudless Storage API.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Core",
+			"item": [
+				{
+					"name": "Encode a raw ID",
+					"item": [
+						{
+							"name": "Encode Raw ID (Basic)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "id",
+											"value": "",
+											"description": "string. For most services, the decrypted ID is the ID provided by that service’s API. In this case, the only information required to generate the Kloudless Object ID would be the object’s raw ID, provided via the `id` attribute. Any minor variations, such as a trailing slash suffixed for S3, will be documented.",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/me/encode_raw_id",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"me",
+										"encode_raw_id"
+									]
+								},
+								"description": "This is the basic encode raw ID API call."
+							},
+							"response": []
+						}
+					],
+					"description": "Kloudless Object IDs are symmetrically encrypted by Kloudless prior to being provided via the API. This encoding ensures that IDs can always be treated as arbitrary strings. The encryption further guarantees that malicious users are less likely to be able to guess or provide an expected ID to the API.\n\nIn some scenarios, the decrypted raw ID may be required. These raw IDs may not be used for API requests to the Kloudless API, but may be useful for API requests directly to the third-party cloud service, such as Dropbox.\n\nA raw ID can be converted to a Kloudless Object ID by using this endpoint. This enables API requests to a service via the Kloudless API, if the ID of an object in that service is already known.\n\nFor most services, the decrypted ID is the ID provided by that service’s API. In this case, the only information required to generate the Kloudless Object ID would be the object’s raw ID, provided via the `id` attribute. Any minor variations, such as a trailing slash suffixed for S3, will be documented.\n\nFor some services, more information is required, such as the object type. These requirements are described below. The raw ID provided by the service is referred to as `raw_id`.\n\nThe id attribute also accepts the following special IDs:\n\n`root`: The root folder.\n\n`trash`: The Trash, Recycle Bin or equivalent.\n\nTo retrieve a Kloudless Object ID, perform a POST request with a JSON object containing the attributes required for the specific service the raw ID belongs to. If the service is not specified in the list below, the only attribute required is `id`."
+				},
+				{
+					"name": "Account Importing",
+					"item": [
+						{
+							"name": "Import an account (Basic)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "APIKey {{api-key}}",
+										"description": "string, required.",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base-url}}/accounts?account&service&token",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts"
+									],
+									"query": [
+										{
+											"key": "account",
+											"value": null,
+											"description": "`string` (Remove for Box using JWT)\nFor services that authenticate via a username and password, this must be the username."
+										},
+										{
+											"key": "service",
+											"value": null,
+											"description": "`string`\nService identifier. Indicates which software service the account is for. The currently supported service identifiers can be found on our documentation."
+										},
+										{
+											"key": "token",
+											"value": null,
+											"description": "`string` (Remove for Adobe CQ5)\nRequired for OAuth services."
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "`string` (optional)\nRequired for services that require a username and password to authenticate access.",
+											"disabled": true
+										},
+										{
+											"key": "token_secret",
+											"value": "",
+											"description": "`string` (optional)\nThe OAuth token secret.",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token",
+											"value": "",
+											"description": "`string` (optional)\nThe OAuth 2.0 refresh token.",
+											"disabled": true
+										},
+										{
+											"key": "token_expiry",
+											"value": "",
+											"description": "`string` (optional)\nISO 8601 timestamp indicating when the token used to access the account expires, if at all. e.g.: For OAuth 2.0, this refers to the expiry time of the access token.",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token_expiry",
+											"value": "",
+											"description": "`string` (optional)\nISO 8601 timestamp indicating when the OAuth 2.0 refresh token expires, if using OAuth 2.0 and refresh tokens are present.",
+											"disabled": true
+										},
+										{
+											"key": "admin",
+											"value": "",
+											"description": "`boolean` (optional)\nTrue if the account was authenticated using the admin flow. These accounts are intended to grant access to org-wide data, either by virtue of the admin user having access to all data (such as for SharePoint) or by impersonating individual users.",
+											"disabled": true
+										},
+										{
+											"key": "enabled",
+											"value": "",
+											"description": "`boolean` (optional)",
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "",
+											"description": "`boolean` (optional)",
+											"disabled": true
+										},
+										{
+											"key": "team_space_id",
+											"value": "",
+											"description": "`string` (Use with Pipeliner)\nThe Pipeliner Team Space ID. e.g. `ts1_TeamSpace_Id`",
+											"disabled": true
+										},
+										{
+											"key": "server_url",
+											"value": "",
+											"description": "`string` (Use with Oracle)\nThe Oracle Sales Cloud Host Server URL. e.g. `https://123.crm.oraclecloud.com`",
+											"disabled": true
+										},
+										{
+											"key": "resource",
+											"value": "",
+											"description": "`string` (Use with Dynamics)\nThe URL of the user’s Dynamics CRM portal. e.g. `https://mydomain.crm.dynamics.com`",
+											"disabled": true
+										},
+										{
+											"key": "instance_url",
+											"value": "",
+											"description": "`string` (Use with Salesforce)\nIdentifies the Salesforce instance to which API calls should be sent. e.g. `https://na1.salesforce.com`",
+											"disabled": true
+										},
+										{
+											"key": "identity_url",
+											"value": "",
+											"description": "`string` (Use with Salesforce)\nIdentity URL that can be used to both identify the user as well as query for more information about the user. e.g. `https://login.salesforce.com/id/00Dx0000000BV7z/005x00000012Q9P`",
+											"disabled": true
+										},
+										{
+											"key": "hub_id",
+											"value": "",
+											"description": "`string` (Use with HubSpot)\nThe user’s Hub ID. It can be found at http://help.hubspot.com/articles/KCS_Article/Account/Where-can-I-find-my-HUB-ID",
+											"disabled": true
+										},
+										{
+											"key": "community",
+											"value": "",
+											"description": "`string` (Use with Jive)\nThe user’s Jive Community URL. It can be found after logging in here https://community.jivesoftware.com/login.jspa",
+											"disabled": true
+										},
+										{
+											"key": "username",
+											"value": "",
+											"description": "`string` (Use with Adobe CQ5)\nUsername registered in the CQ5 server.",
+											"disabled": true
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "`string` (Use with Adobe CQ5 or Box w/ JWT)\nPassword registered in the CQ5 server. If Box JWT, instead use `boolean` value true",
+											"disabled": true
+										},
+										{
+											"key": "server",
+											"value": "",
+											"description": "`string` (Use with Adobe CQ5)\nThe full URI of the CQ5 server, e.g. `https://cq5.example.com`",
+											"disabled": true
+										},
+										{
+											"key": "domain",
+											"value": "",
+											"description": "`string` (Use with CalDAV, SharePoint 2013, SMB, ShareFile, Egnyte)\nThe CalDAV or SharePoint URL Domain. e.g. `host.example.com:5232/calendar/` or `smb.company.com:1399`",
+											"disabled": true
+										},
+										{
+											"key": "protocol",
+											"value": "",
+											"description": "`string`(Use with CalDAV/WebDAV)\nThe CalDAV/WebDAV URL protocol. e.g. `http`",
+											"disabled": true
+										},
+										{
+											"key": "host",
+											"value": "",
+											"description": "`string` (Use with WebDAV)\nThe WebDAV host URL. e.g. `host.example.com`",
+											"disabled": true
+										},
+										{
+											"key": "port",
+											"value": "",
+											"description": "`string` (Use with WebDAV)\nThe WebDAV port. e.g. `80`",
+											"disabled": true
+										},
+										{
+											"key": "path",
+											"value": "",
+											"description": "`string` (Use with WebDAV)\nThe WebDAV path. e.g. `webdav`",
+											"disabled": true
+										},
+										{
+											"key": "repository_url",
+											"value": "",
+											"description": "`string` (Use with CMIS, Alfresco, Alfresco Cloud)\nThe service URL of the CMIS repository. e.g. `http://cmis.alfresco.com/cmisatom`",
+											"disabled": true
+										},
+										{
+											"key": "enterprise_id",
+											"value": "",
+											"description": "`string` (Use with Box JWT)\nThe ID of the Enterprise this account represents.",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Basic account import for most services. Some services require additional information, and are listed below."
+							},
+							"response": []
+						},
+						{
+							"name": "Import an account (Google Calendar / Outlook Calendar)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "string, required.",
+										"key": "Authorization",
+										"type": "text",
+										"value": "APIKey {{api-key}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{base-url}}/accounts?account&service&token",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts"
+									],
+									"query": [
+										{
+											"key": "account",
+											"value": null,
+											"description": "`string`\nFor services that authenticate via a username and password, this must be the username."
+										},
+										{
+											"key": "service",
+											"value": null,
+											"description": "`string`\nService identifier. Indicates which software service the account is for. The currently supported service identifiers can be found on our documentation."
+										},
+										{
+											"key": "token",
+											"value": null,
+											"description": "`string`\nRequired for OAuth services."
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "`string` (optional)\nRequired for services that require a username and password to authenticate access.",
+											"disabled": true
+										},
+										{
+											"key": "token_secret",
+											"value": "",
+											"description": "`string` (optional)\nThe OAuth token secret.",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token",
+											"value": "",
+											"description": "`string` (optional)\nThe OAuth 2.0 refresh token.",
+											"disabled": true
+										},
+										{
+											"key": "token_expiry",
+											"value": "",
+											"description": "`string` (optional)\nISO 8601 timestamp indicating when the token used to access the account expires, if at all. e.g.: For OAuth 2.0, this refers to the expiry time of the access token.",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token_expiry",
+											"value": "",
+											"description": "`string` (optional)\nISO 8601 timestamp indicating when the OAuth 2.0 refresh token expires, if using OAuth 2.0 and refresh tokens are present.",
+											"disabled": true
+										},
+										{
+											"key": "admin",
+											"value": "",
+											"description": "`boolean` (optional)\nTrue if the account was authenticated using the admin flow. These accounts are intended to grant access to org-wide data, either by virtue of the admin user having access to all data (such as for SharePoint) or by impersonating individual users.",
+											"disabled": true
+										},
+										{
+											"key": "enabled",
+											"value": "",
+											"description": "`boolean` (optional)",
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "",
+											"description": "`boolean` (optional)",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Basic account import for most services. Some services require additional information, and are listed below."
+							},
+							"response": []
+						},
+						{
+							"name": "Import an account (Pipeliner)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "APIKey {{api-key}}",
+										"description": "string, required.",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base-url}}/accounts?account&service&token&team_space_id=",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts"
+									],
+									"query": [
+										{
+											"key": "account",
+											"value": null,
+											"description": "`string`\nFor services that authenticate via a username and password, this must be the username."
+										},
+										{
+											"key": "service",
+											"value": null,
+											"description": "`string`\nService identifier. Indicates which software service the account is for. The currently supported service identifiers can be found on our documentation."
+										},
+										{
+											"key": "token",
+											"value": null,
+											"description": "`string`\nRequired for OAuth services."
+										},
+										{
+											"key": "team_space_id",
+											"value": "",
+											"description": "`string`\nThe Pipeliner Team Space ID. e.g. `ts1_TeamSpace_Id`"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "`string` (optional)\nRequired for services that require a username and password to authenticate access.",
+											"disabled": true
+										},
+										{
+											"key": "token_secret",
+											"value": "",
+											"description": "`string` (optional)\nThe OAuth token secret.",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token",
+											"value": "",
+											"description": "`string` (optional)\nThe OAuth 2.0 refresh token.",
+											"disabled": true
+										},
+										{
+											"key": "token_expiry",
+											"value": "",
+											"description": "`string` (optional)\nISO 8601 timestamp indicating when the token used to access the account expires, if at all. e.g.: For OAuth 2.0, this refers to the expiry time of the access token.",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token_expiry",
+											"value": "",
+											"description": "`string` (optional)\nISO 8601 timestamp indicating when the OAuth 2.0 refresh token expires, if using OAuth 2.0 and refresh tokens are present.",
+											"disabled": true
+										},
+										{
+											"key": "admin",
+											"value": "",
+											"description": "`boolean` (optional)\nTrue if the account was authenticated using the admin flow. These accounts are intended to grant access to org-wide data, either by virtue of the admin user having access to all data (such as for SharePoint) or by impersonating individual users.",
+											"disabled": true
+										},
+										{
+											"key": "enabled",
+											"value": "",
+											"description": "`boolean` (optional)",
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "",
+											"description": "`boolean` (optional)",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Basic account import for most services. Some services require additional information, and are listed below."
+							},
+							"response": []
+						},
+						{
+							"name": "Import an account (Oracle)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "APIKey {{api-key}}",
+										"description": "string, required.",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base-url}}/accounts?account&service&token&server_url=",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts"
+									],
+									"query": [
+										{
+											"key": "account",
+											"value": null,
+											"description": "`string`\nFor services that authenticate via a username and password, this must be the username."
+										},
+										{
+											"key": "service",
+											"value": null,
+											"description": "`string`\nService identifier. Indicates which software service the account is for. The currently supported service identifiers can be found on our documentation."
+										},
+										{
+											"key": "token",
+											"value": null,
+											"description": "`string`\nRequired for OAuth services."
+										},
+										{
+											"key": "server_url",
+											"value": "",
+											"description": "`string`\nThe Oracle Sales Cloud Host Server URL. e.g. `https://123.crm.oraclecloud.com`"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "`string` (optional)\nRequired for services that require a username and password to authenticate access.",
+											"disabled": true
+										},
+										{
+											"key": "token_secret",
+											"value": "",
+											"description": "`string` (optional)\nThe OAuth token secret.",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token",
+											"value": "",
+											"description": "`string` (optional)\nThe OAuth 2.0 refresh token.",
+											"disabled": true
+										},
+										{
+											"key": "token_expiry",
+											"value": "",
+											"description": "`string` (optional)\nISO 8601 timestamp indicating when the token used to access the account expires, if at all. e.g.: For OAuth 2.0, this refers to the expiry time of the access token.",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token_expiry",
+											"value": "",
+											"description": "`string` (optional)\nISO 8601 timestamp indicating when the OAuth 2.0 refresh token expires, if using OAuth 2.0 and refresh tokens are present.",
+											"disabled": true
+										},
+										{
+											"key": "admin",
+											"value": "",
+											"description": "`boolean` (optional)\nTrue if the account was authenticated using the admin flow. These accounts are intended to grant access to org-wide data, either by virtue of the admin user having access to all data (such as for SharePoint) or by impersonating individual users.",
+											"disabled": true
+										},
+										{
+											"key": "enabled",
+											"value": "",
+											"description": "`boolean` (optional)",
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "",
+											"description": "`boolean` (optional)",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Basic account import for most services. Some services require additional information, and are listed below."
+							},
+							"response": []
+						},
+						{
+							"name": "Import an account (Dynamics)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "APIKey {{api-key}}",
+										"description": "string, required.",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base-url}}/accounts?account&service&token&resource=",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts"
+									],
+									"query": [
+										{
+											"key": "account",
+											"value": null,
+											"description": "`string`\nFor services that authenticate via a username and password, this must be the username."
+										},
+										{
+											"key": "service",
+											"value": null,
+											"description": "`string`\nService identifier. Indicates which software service the account is for. The currently supported service identifiers can be found on our documentation."
+										},
+										{
+											"key": "token",
+											"value": null,
+											"description": "`string`\nRequired for OAuth services."
+										},
+										{
+											"key": "resource",
+											"value": "",
+											"description": "`string`\nThe URL of the user’s Dynamics CRM portal. e.g. `https://mydomain.crm.dynamics.com`"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "`string` (optional)\nRequired for services that require a username and password to authenticate access.",
+											"disabled": true
+										},
+										{
+											"key": "token_secret",
+											"value": "",
+											"description": "`string` (optional)\nThe OAuth token secret.",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token",
+											"value": "",
+											"description": "`string` (optional)\nThe OAuth 2.0 refresh token.",
+											"disabled": true
+										},
+										{
+											"key": "token_expiry",
+											"value": "",
+											"description": "`string` (optional)\nISO 8601 timestamp indicating when the token used to access the account expires, if at all. e.g.: For OAuth 2.0, this refers to the expiry time of the access token.",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token_expiry",
+											"value": "",
+											"description": "`string` (optional)\nISO 8601 timestamp indicating when the OAuth 2.0 refresh token expires, if using OAuth 2.0 and refresh tokens are present.",
+											"disabled": true
+										},
+										{
+											"key": "admin",
+											"value": "",
+											"description": "`boolean` (optional)\nTrue if the account was authenticated using the admin flow. These accounts are intended to grant access to org-wide data, either by virtue of the admin user having access to all data (such as for SharePoint) or by impersonating individual users.",
+											"disabled": true
+										},
+										{
+											"key": "enabled",
+											"value": "",
+											"description": "`boolean` (optional)",
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "",
+											"description": "`boolean` (optional)",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Basic account import for most services. Some services require additional information, and are listed below."
+							},
+							"response": []
+						},
+						{
+							"name": "Import an account (Salesforce)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "APIKey {{api-key}}",
+										"description": "string, required.",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base-url}}/accounts?account&service&token&instance_url=`&identity_url=",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts"
+									],
+									"query": [
+										{
+											"key": "account",
+											"value": null,
+											"description": "`string`\nFor services that authenticate via a username and password, this must be the username."
+										},
+										{
+											"key": "service",
+											"value": null,
+											"description": "`string`\nService identifier. Indicates which software service the account is for. The currently supported service identifiers can be found on our documentation."
+										},
+										{
+											"key": "token",
+											"value": null,
+											"description": "`string`\nRequired for OAuth services."
+										},
+										{
+											"key": "instance_url",
+											"value": "`",
+											"description": "`string`\nIdentifies the Salesforce instance to which API calls should be sent. e.g. `https://na1.salesforce.com`"
+										},
+										{
+											"key": "identity_url",
+											"value": "",
+											"description": "`string`\nIdentity URL that can be used to both identify the user as well as query for more information about the user. e.g. `https://login.salesforce.com/id/00Dx0000000BV7z/005x00000012Q9P`"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "`string` (optional)\nRequired for services that require a username and password to authenticate access.",
+											"disabled": true
+										},
+										{
+											"key": "token_secret",
+											"value": "",
+											"description": "`string` (optional)\nThe OAuth token secret.",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token",
+											"value": "",
+											"description": "`string` (optional)\nThe OAuth 2.0 refresh token.",
+											"disabled": true
+										},
+										{
+											"key": "token_expiry",
+											"value": "",
+											"description": "`string` (optional)\nISO 8601 timestamp indicating when the token used to access the account expires, if at all. e.g.: For OAuth 2.0, this refers to the expiry time of the access token.",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token_expiry",
+											"value": "",
+											"description": "`string` (optional)\nISO 8601 timestamp indicating when the OAuth 2.0 refresh token expires, if using OAuth 2.0 and refresh tokens are present.",
+											"disabled": true
+										},
+										{
+											"key": "admin",
+											"value": "",
+											"description": "`boolean` (optional)\nTrue if the account was authenticated using the admin flow. These accounts are intended to grant access to org-wide data, either by virtue of the admin user having access to all data (such as for SharePoint) or by impersonating individual users.",
+											"disabled": true
+										},
+										{
+											"key": "enabled",
+											"value": "",
+											"description": "`boolean` (optional)",
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "",
+											"description": "`boolean` (optional)",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Basic account import for most services. Some services require additional information, and are listed below."
+							},
+							"response": []
+						},
+						{
+							"name": "Import an account (HubSpot)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "APIKey {{api-key}}",
+										"description": "string, required.",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base-url}}/accounts?account&service&token&hub_id=",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts"
+									],
+									"query": [
+										{
+											"key": "account",
+											"value": null,
+											"description": "`string`\nFor services that authenticate via a username and password, this must be the username."
+										},
+										{
+											"key": "service",
+											"value": null,
+											"description": "`string`\nService identifier. Indicates which software service the account is for. The currently supported service identifiers can be found on our documentation."
+										},
+										{
+											"key": "token",
+											"value": null,
+											"description": "`string`\nRequired for OAuth services."
+										},
+										{
+											"key": "hub_id",
+											"value": "",
+											"description": "`string`\nThe user’s Hub ID. It can be found at http://help.hubspot.com/articles/KCS_Article/Account/Where-can-I-find-my-HUB-ID"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "`string` (optional)\nRequired for services that require a username and password to authenticate access.",
+											"disabled": true
+										},
+										{
+											"key": "token_secret",
+											"value": "",
+											"description": "`string` (optional)\nThe OAuth token secret.",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token",
+											"value": "",
+											"description": "`string` (optional)\nThe OAuth 2.0 refresh token.",
+											"disabled": true
+										},
+										{
+											"key": "token_expiry",
+											"value": "",
+											"description": "`string` (optional)\nISO 8601 timestamp indicating when the token used to access the account expires, if at all. e.g.: For OAuth 2.0, this refers to the expiry time of the access token.",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token_expiry",
+											"value": "",
+											"description": "`string` (optional)\nISO 8601 timestamp indicating when the OAuth 2.0 refresh token expires, if using OAuth 2.0 and refresh tokens are present.",
+											"disabled": true
+										},
+										{
+											"key": "admin",
+											"value": "",
+											"description": "`boolean` (optional)\nTrue if the account was authenticated using the admin flow. These accounts are intended to grant access to org-wide data, either by virtue of the admin user having access to all data (such as for SharePoint) or by impersonating individual users.",
+											"disabled": true
+										},
+										{
+											"key": "enabled",
+											"value": "",
+											"description": "`boolean` (optional)",
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "",
+											"description": "`boolean` (optional)",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Basic account import for most services. Some services require additional information, and are listed below."
+							},
+							"response": []
+						},
+						{
+							"name": "Import an account (Jive)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "string, required.",
+										"key": "Authorization",
+										"type": "text",
+										"value": "APIKey {{api-key}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "account",
+											"value": "",
+											"description": "string. For services that authenticate via a username and password, this must be the username.",
+											"type": "text"
+										},
+										{
+											"key": "service",
+											"value": "",
+											"description": "string. Service identifier. Indicates which software service the account is for. The currently supported service identifiers can be found on our documentation.",
+											"type": "text"
+										},
+										{
+											"key": "token",
+											"value": "",
+											"description": "string. Required for OAuth services.",
+											"type": "text"
+										},
+										{
+											"key": "community",
+											"value": "",
+											"description": "string. The user’s Jive Community URL. It can be found after logging in here https://community.jivesoftware.com/login.jspa",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "string, optional. Required for services that require a username and password to authenticate access.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_secret",
+											"value": "",
+											"description": "string, optional. The OAuth token secret.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token",
+											"value": "",
+											"description": "string, optional. The OAuth 2.0 refresh token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the token used to access the account expires, if at all. e.g.: For OAuth 2.0, this refers to the expiry time of the access token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the OAuth 2.0 refresh token expires, if using OAuth 2.0 and refresh tokens are present.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "admin",
+											"value": "",
+											"description": "boolean, optional. True if the account was authenticated using the admin flow. These accounts are intended to grant access to org-wide data, either by virtue of the admin user having access to all data (such as for SharePoint) or by impersonating individual users.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "enabled",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts"
+									]
+								},
+								"description": "Basic account import for Jive."
+							},
+							"response": []
+						},
+						{
+							"name": "Import an account (Adobe CQ5)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "string, required.",
+										"key": "Authorization",
+										"type": "text",
+										"value": "APIKey {{api-key}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "account",
+											"value": "",
+											"description": "string. For services that authenticate via a username and password, this must be the username.",
+											"type": "text"
+										},
+										{
+											"key": "service",
+											"value": "",
+											"description": "string. Service identifier. Indicates which software service the account is for. The currently supported service identifiers can be found on our documentation.",
+											"type": "text"
+										},
+										{
+											"key": "server",
+											"value": "",
+											"description": "string.  The full URI of the CQ5 server, e.g. `https://cq5.example.com`",
+											"type": "text"
+										},
+										{
+											"key": "username",
+											"value": "",
+											"description": "string. Username registered in the CQ5 server.",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "string. Password registered in the CQ5 server.",
+											"type": "text"
+										},
+										{
+											"key": "token",
+											"value": "",
+											"description": "string. Required for OAuth services.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "string, optional. Required for services that require a username and password to authenticate access.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_secret",
+											"value": "",
+											"description": "string, optional. The OAuth token secret.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token",
+											"value": "",
+											"description": "string, optional. The OAuth 2.0 refresh token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the token used to access the account expires, if at all. e.g.: For OAuth 2.0, this refers to the expiry time of the access token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the OAuth 2.0 refresh token expires, if using OAuth 2.0 and refresh tokens are present.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "admin",
+											"value": "",
+											"description": "boolean, optional. True if the account was authenticated using the admin flow. These accounts are intended to grant access to org-wide data, either by virtue of the admin user having access to all data (such as for SharePoint) or by impersonating individual users.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "enabled",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts"
+									]
+								},
+								"description": "Basic account import for Adobe CQ5."
+							},
+							"response": []
+						},
+						{
+							"name": "Import an account (CalDAV)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "string, required.",
+										"key": "Authorization",
+										"type": "text",
+										"value": "APIKey {{api-key}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "account",
+											"value": "",
+											"description": "string. For services that authenticate via a username and password, this must be the username.",
+											"type": "text"
+										},
+										{
+											"key": "service",
+											"value": "",
+											"description": "string. Service identifier. Indicates which software service the account is for. The currently supported service identifiers can be found on our documentation.",
+											"type": "text"
+										},
+										{
+											"key": "token",
+											"value": "",
+											"description": "string. Required for OAuth services.",
+											"type": "text"
+										},
+										{
+											"key": "protocol",
+											"value": "",
+											"description": "string. The CalDAV URL protocol. e.g. `http`",
+											"type": "text"
+										},
+										{
+											"key": "domain",
+											"value": "",
+											"description": "string. The CalDAV URL Domain. e.g. `host.example.com:5232/calendar/`",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "string, optional. Required for services that require a username and password to authenticate access.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_secret",
+											"value": "",
+											"description": "string, optional. The OAuth token secret.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token",
+											"value": "",
+											"description": "string, optional. The OAuth 2.0 refresh token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the token used to access the account expires, if at all. e.g.: For OAuth 2.0, this refers to the expiry time of the access token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the OAuth 2.0 refresh token expires, if using OAuth 2.0 and refresh tokens are present.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "admin",
+											"value": "",
+											"description": "boolean, optional. True if the account was authenticated using the admin flow. These accounts are intended to grant access to org-wide data, either by virtue of the admin user having access to all data (such as for SharePoint) or by impersonating individual users.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "enabled",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts"
+									]
+								},
+								"description": "Basic account import for CalDAV."
+							},
+							"response": []
+						},
+						{
+							"name": "Import an account (WebDAV)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "string, required.",
+										"key": "Authorization",
+										"type": "text",
+										"value": "APIKey {{api-key}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "account",
+											"value": "",
+											"description": "string. For services that authenticate via a username and password, this must be the username.",
+											"type": "text"
+										},
+										{
+											"key": "service",
+											"value": "",
+											"description": "string. Service identifier. Indicates which software service the account is for. The currently supported service identifiers can be found on our documentation.",
+											"type": "text"
+										},
+										{
+											"key": "token",
+											"value": "",
+											"description": "string. Required for OAuth services.",
+											"type": "text"
+										},
+										{
+											"key": "protocol",
+											"value": "",
+											"description": "string. The WebDAV URL protocol. e.g. `http`.",
+											"type": "text"
+										},
+										{
+											"key": "host",
+											"value": "",
+											"description": "string. The WebDAV host URL. e.g. `host.example.com`",
+											"type": "text"
+										},
+										{
+											"key": "port",
+											"value": "",
+											"description": "string. The WebDAV port. e.g. `80`",
+											"type": "text"
+										},
+										{
+											"key": "path",
+											"value": "",
+											"description": "string. The WebDAV path. e.g. `webdav`",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "string, optional. Required for services that require a username and password to authenticate access.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_secret",
+											"value": "",
+											"description": "string, optional. The OAuth token secret.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token",
+											"value": "",
+											"description": "string, optional. The OAuth 2.0 refresh token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the token used to access the account expires, if at all. e.g.: For OAuth 2.0, this refers to the expiry time of the access token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the OAuth 2.0 refresh token expires, if using OAuth 2.0 and refresh tokens are present.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "admin",
+											"value": "",
+											"description": "boolean, optional. True if the account was authenticated using the admin flow. These accounts are intended to grant access to org-wide data, either by virtue of the admin user having access to all data (such as for SharePoint) or by impersonating individual users.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "enabled",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts"
+									]
+								},
+								"description": "Basic account import for WebDAV."
+							},
+							"response": []
+						},
+						{
+							"name": "Import an account (CMIS, Alfresco, Alfresco Cloud)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "string, required.",
+										"key": "Authorization",
+										"type": "text",
+										"value": "APIKey {{api-key}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "account",
+											"value": "",
+											"description": "string. For services that authenticate via a username and password, this must be the username.",
+											"type": "text"
+										},
+										{
+											"key": "service",
+											"value": "",
+											"description": "string. Service identifier. Indicates which software service the account is for. The currently supported service identifiers can be found on our documentation.",
+											"type": "text"
+										},
+										{
+											"key": "token",
+											"value": "",
+											"description": "string. Required for OAuth services.",
+											"type": "text"
+										},
+										{
+											"key": "repository_url",
+											"value": "",
+											"description": "string. The service URL of the CMIS repository. e.g. `http://cmis.alfresco.com/cmisatom`",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "string, optional. Required for services that require a username and password to authenticate access.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_secret",
+											"value": "",
+											"description": "string, optional. The OAuth token secret.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token",
+											"value": "",
+											"description": "string, optional. The OAuth 2.0 refresh token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the token used to access the account expires, if at all. e.g.: For OAuth 2.0, this refers to the expiry time of the access token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the OAuth 2.0 refresh token expires, if using OAuth 2.0 and refresh tokens are present.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "admin",
+											"value": "",
+											"description": "boolean, optional. True if the account was authenticated using the admin flow. These accounts are intended to grant access to org-wide data, either by virtue of the admin user having access to all data (such as for SharePoint) or by impersonating individual users.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "enabled",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts"
+									]
+								},
+								"description": "Basic account import for most services. Some services require additional information, and are listed below."
+							},
+							"response": []
+						},
+						{
+							"name": "Import an account (SharePoint 2013)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "string, required.",
+										"key": "Authorization",
+										"type": "text",
+										"value": "APIKey {{api-key}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "account",
+											"value": "",
+											"description": "string. For services that authenticate via a username and password, this must be the username.",
+											"type": "text"
+										},
+										{
+											"key": "service",
+											"value": "",
+											"description": "string. Service identifier. Indicates which software service the account is for. The currently supported service identifiers can be found on our documentation.",
+											"type": "text"
+										},
+										{
+											"key": "token",
+											"value": "",
+											"description": "string. Required for OAuth services.",
+											"type": "text"
+										},
+										{
+											"key": "domain",
+											"value": "",
+											"description": "string. The URL of the user’s SharePoint domain or site.",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "string, optional. Required for services that require a username and password to authenticate access.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_secret",
+											"value": "",
+											"description": "string, optional. The OAuth token secret.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token",
+											"value": "",
+											"description": "string, optional. The OAuth 2.0 refresh token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the token used to access the account expires, if at all. e.g.: For OAuth 2.0, this refers to the expiry time of the access token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the OAuth 2.0 refresh token expires, if using OAuth 2.0 and refresh tokens are present.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "admin",
+											"value": "",
+											"description": "boolean, optional. True if the account was authenticated using the admin flow. These accounts are intended to grant access to org-wide data, either by virtue of the admin user having access to all data (such as for SharePoint) or by impersonating individual users.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "enabled",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts"
+									]
+								},
+								"description": "Basic account import for SharePoint 2013."
+							},
+							"response": []
+						},
+						{
+							"name": "Import an account (SMB)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "string, required.",
+										"key": "Authorization",
+										"type": "text",
+										"value": "APIKey {{api-key}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "account",
+											"value": "",
+											"description": "string. For services that authenticate via a username and password, this must be the username.",
+											"type": "text"
+										},
+										{
+											"key": "service",
+											"value": "",
+											"description": "string. Service identifier. Indicates which software service the account is for. The currently supported service identifiers can be found on our documentation.",
+											"type": "text"
+										},
+										{
+											"key": "token",
+											"value": "",
+											"description": "string. Required for OAuth services.",
+											"type": "text"
+										},
+										{
+											"key": "domain",
+											"value": "",
+											"description": "string. The host (and port if non-default) of the SMB server. For example, `smb.company.com:1399`",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "string, optional. Required for services that require a username and password to authenticate access.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_secret",
+											"value": "",
+											"description": "string, optional. The OAuth token secret.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token",
+											"value": "",
+											"description": "string, optional. The OAuth 2.0 refresh token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the token used to access the account expires, if at all. e.g.: For OAuth 2.0, this refers to the expiry time of the access token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the OAuth 2.0 refresh token expires, if using OAuth 2.0 and refresh tokens are present.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "admin",
+											"value": "",
+											"description": "boolean, optional. True if the account was authenticated using the admin flow. These accounts are intended to grant access to org-wide data, either by virtue of the admin user having access to all data (such as for SharePoint) or by impersonating individual users.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "enabled",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts"
+									]
+								},
+								"description": "Basic account import for SMB."
+							},
+							"response": []
+						},
+						{
+							"name": "Import an account (SharePoint/OneDrive)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "string, required.",
+										"key": "Authorization",
+										"type": "text",
+										"value": "APIKey {{api-key}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "account",
+											"value": "",
+											"description": "string. For services that authenticate via a username and password, this must be the username.",
+											"type": "text"
+										},
+										{
+											"key": "service",
+											"value": "",
+											"description": "string. Service identifier. Indicates which software service the account is for. The currently supported service identifiers can be found on our documentation.",
+											"type": "text"
+										},
+										{
+											"key": "token",
+											"value": "",
+											"description": "string. Required for OAuth services.  Instead of the access token an ID token must be provided",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "string, optional. Required for services that require a username and password to authenticate access.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_secret",
+											"value": "",
+											"description": "string, optional. The OAuth token secret.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token",
+											"value": "",
+											"description": "string, optional. The OAuth 2.0 refresh token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the token used to access the account expires, if at all. e.g.: For OAuth 2.0, this refers to the expiry time of the access token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the OAuth 2.0 refresh token expires, if using OAuth 2.0 and refresh tokens are present.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "admin",
+											"value": "",
+											"description": "boolean, optional. True if the account was authenticated using the admin flow. These accounts are intended to grant access to org-wide data, either by virtue of the admin user having access to all data (such as for SharePoint) or by impersonating individual users.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "enabled",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts"
+									]
+								},
+								"description": "Basic account import for SharePoint or OneDrive.\n\nFor the Client Credentials Authentication described on the Credentials page (https://developers.kloudless.com/applications/*/credentials) of the Developer Portal under the section for custom SharePoint/OneDrive for Business admin keys, include the following attributes: \n`token` - Instead of the access token an ID token must be provided\nFor information on how to retrieve an ID token, please visit: https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-protocols-openid-connect-code#send-the-sign-in-request"
+							},
+							"response": []
+						},
+						{
+							"name": "Import an account (ShareFile)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "string, required.",
+										"key": "Authorization",
+										"type": "text",
+										"value": "APIKey {{api-key}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "account",
+											"value": "",
+											"description": "string. For services that authenticate via a username and password, this must be the username.",
+											"type": "text"
+										},
+										{
+											"key": "service",
+											"value": "sharefile",
+											"description": "string. Service identifier. Indicates which software service the account is for. The currently supported service identifiers can be found on our documentation.",
+											"type": "text"
+										},
+										{
+											"key": "domain",
+											"value": "",
+											"description": "string. The user’s ShareFile domain. This can be obtained from the response to a request for an access token.",
+											"type": "text"
+										},
+										{
+											"key": "token",
+											"value": "",
+											"description": "string. Required for OAuth services.",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "string, optional. Required for services that require a username and password to authenticate access.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_secret",
+											"value": "",
+											"description": "string, optional. The OAuth token secret.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token",
+											"value": "",
+											"description": "string, optional. The OAuth 2.0 refresh token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the token used to access the account expires, if at all. e.g.: For OAuth 2.0, this refers to the expiry time of the access token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the OAuth 2.0 refresh token expires, if using OAuth 2.0 and refresh tokens are present.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "admin",
+											"value": "",
+											"description": "boolean, optional. True if the account was authenticated using the admin flow. These accounts are intended to grant access to org-wide data, either by virtue of the admin user having access to all data (such as for SharePoint) or by impersonating individual users.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "enabled",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts"
+									]
+								},
+								"description": "Basic account import for ShareFile."
+							},
+							"response": []
+						},
+						{
+							"name": "Import an account (Egnyte)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "string, required.",
+										"key": "Authorization",
+										"type": "text",
+										"value": "APIKey {{api-key}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "account",
+											"value": "",
+											"description": "string. For services that authenticate via a username and password, this must be the username.",
+											"type": "text"
+										},
+										{
+											"key": "service",
+											"value": "egnyte",
+											"description": "string. Service identifier. Indicates which software service the account is for. The currently supported service identifiers can be found on our documentation.",
+											"type": "text"
+										},
+										{
+											"key": "domain",
+											"value": "",
+											"description": "string. The user’s Egnyte domain. This can be obtained from the URL users use to access their Egnyte account: `company.egnyte.com`",
+											"type": "text"
+										},
+										{
+											"key": "token",
+											"value": "",
+											"description": "string. Required for OAuth services.",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "string, optional. Required for services that require a username and password to authenticate access.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_secret",
+											"value": "",
+											"description": "string, optional. The OAuth token secret.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token",
+											"value": "",
+											"description": "string, optional. The OAuth 2.0 refresh token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the token used to access the account expires, if at all. e.g.: For OAuth 2.0, this refers to the expiry time of the access token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the OAuth 2.0 refresh token expires, if using OAuth 2.0 and refresh tokens are present.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "admin",
+											"value": "",
+											"description": "boolean, optional. True if the account was authenticated using the admin flow. These accounts are intended to grant access to org-wide data, either by virtue of the admin user having access to all data (such as for SharePoint) or by impersonating individual users.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "enabled",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts"
+									]
+								},
+								"description": "Basic account import for Egnyte."
+							},
+							"response": []
+						},
+						{
+							"name": "Import an account (Box using JWT Authentication)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "string, required.",
+										"key": "Authorization",
+										"type": "text",
+										"value": "APIKey {{api-key}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "service",
+											"value": "box",
+											"description": "string. Service identifier. Indicates which software service the account is for. The currently supported service identifiers can be found on our documentation.",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "true",
+											"description": "boolean. This will skip the three-legged OAuth 2.0 flow.",
+											"type": "text"
+										},
+										{
+											"key": "enterprise_id",
+											"value": "",
+											"description": "string. The ID of the Enterprise this account represents.",
+											"type": "text"
+										},
+										{
+											"key": "admin",
+											"value": "",
+											"description": "boolean, optional. True if the account was authenticated using the admin flow. These accounts are intended to grant access to org-wide data, either by virtue of the admin user having access to all data (such as for SharePoint) or by impersonating individual users.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "account",
+											"value": "",
+											"description": "string, optional. A unique identifier for this account, or the unique identifier of an existing account to overwrite it. If not set, this will be inferred and set automatically.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token",
+											"value": "",
+											"description": "string, optional. Required for OAuth services.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_secret",
+											"value": "",
+											"description": "string, optional. The OAuth token secret.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token",
+											"value": "",
+											"description": "string, optional. The OAuth 2.0 refresh token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the token used to access the account expires, if at all. e.g.: For OAuth 2.0, this refers to the expiry time of the access token.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "refresh_token_expiry",
+											"value": "",
+											"description": "string, optional. ISO 8601 timestamp indicating when the OAuth 2.0 refresh token expires, if using OAuth 2.0 and refresh tokens are present.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "enabled",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "",
+											"description": "boolean, optional.",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts"
+									]
+								},
+								"description": "Box accounts setup with OAuth 2.0 can use the basic import request. For Box accounts setup with JWT, the following parameters will be required."
+							},
+							"response": []
+						}
+					],
+					"description": "Account creation is usually handled via Kloudless Authentication. However, this account creation endpoint can be used to import account and token information into Kloudless. This is useful when your app has already authenticated a user and wishes to migrate the credentials into Kloudless to use the Kloudless API endpoints instead. The different cloud services require different data specific to the cloud service. See our documentation for a more detailed breakdown.",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Get a list of all accounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/accounts/?",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"accounts",
+								""
+							],
+							"query": [
+								{
+									"key": "enabled",
+									"value": null,
+									"description": "boolean (optional) \nRetrieves only enabled/disabled accounts, if present.",
+									"disabled": true
+								},
+								{
+									"key": "page_size",
+									"value": null,
+									"description": "number (optional) Default: 10 \nNumber of objects in each page. The page_size must be between 1 and 1000.",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": null,
+									"description": "number (optional) \nPage to return. page_size number of objects will be returned on each page. By default, the first page is returned. The page parameter can be used to request further objects.",
+									"disabled": true
+								},
+								{
+									"key": "admin",
+									"value": null,
+									"description": "boolean (optional) \nRetrieves only admin/non-admin accounts, if present.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get info about a specific account",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/accounts/me",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"accounts",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get properties for all services",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/public/services/",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"public",
+								"services",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get properties for one service",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/public/services/$SERVICE_ID",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"public",
+								"services",
+								"$SERVICE_ID"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Task Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/me/tasks/$TASK_ID",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"me",
+								"tasks",
+								"$TASK_ID"
+							]
+						},
+						"description": "The task object has the following attributes:\n\n`id`: identifier used to reference task in the Task endpoint.\n\n`status`: Current status of the request, one of:\n\n`PENDING`: The task state is unknown.\n`RECIEVED`: The task was recieved, waiting to start.\n`STARTED`: The task was started and currently is in progress.\nOnce the task has completed, the result of the request will be returned instead of the task metadata."
+					},
+					"response": []
+				},
+				{
+					"name": "Update a service",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base-url}}/public/services/$SERVICE_ID",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"public",
+								"services",
+								"$SERVICE_ID"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Add multiple software services to your app with the Kloudless API. Rather than working through each API individually, code once and your application is instantly connected to multiple cloud services. We take care of the integration and ongoing maintenance, so you can focus on building a great product."
+		},
+		{
+			"name": "Storage",
+			"item": [
+				{
+					"name": "Folders endpoints",
+					"item": [
+						{
+							"name": "Get a list of items in a folder",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/folders/$FOLDER_ID/contents/?",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"folders",
+										"$FOLDER_ID",
+										"contents",
+										""
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "",
+											"description": "`string` (optional)\nWhich page of items to retrieve.",
+											"disabled": true
+										},
+										{
+											"key": "page_size",
+											"value": "",
+											"description": "`integer` (optional)\nNumber of items to return per page.",
+											"disabled": true
+										},
+										{
+											"key": "recursive",
+											"value": "",
+											"description": "`boolean` (optional). List all contents within this folder.",
+											"disabled": true
+										}
+									]
+								},
+								"description": "[Link to our API reference](https://developers.kloudless.com/docs/v1/storage#folders-retrieve-folder-contents)"
+							},
+							"response": []
+						},
+						{
+							"name": "Get metadata about a folder",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/folders/$FOLDER_ID/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"folders",
+										"$FOLDER_ID",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Copy specific folder to a new directory or account",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"parent_id\": \"string\",\n\t\"account\": 0,\n\t\"name\": \"string\",\n\t\"user\": \"string\"\n}"
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/files/$FOLDER_ID/copy/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"files",
+										"$FOLDER_ID",
+										"copy",
+										""
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#folders-copy-a-folder)"
+							},
+							"response": []
+						},
+						{
+							"name": "Create a folder",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"parent_id\": \"root\",\n    \"name\": \"Test folder\"\n}"
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/folders/?",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"folders",
+										""
+									],
+									"query": [
+										{
+											"key": "conflict_if_exists",
+											"value": "false",
+											"description": "'boolean` (optional)\nIf `false`, this will search for and return an existing folder with the same name if present, rather than attempting to create the folder. If `true`, this may result in an error with status code 409 if the location already contains a folder with the same name.",
+											"disabled": true
+										}
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#folders-create-a-folder)"
+							},
+							"response": []
+						},
+						{
+							"name": "Rename/Move a folder",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": " {\n \t\"parent_id\":\"string\",\n \t\"name\": \"string\",\n \t\"user\": \"string\"\n }"
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/folders/$FOLDER_ID/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"folders",
+										"$FOLDER_ID",
+										""
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#files-rename-move-a-file)"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a folder",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "permanent",
+											"value": "",
+											"description": "`boolean` (optional)\nSkip the Trash (if present) and delete permanently.",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/folders/$FOLDER_ID/?",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"folders",
+										"$FOLDER_ID",
+										""
+									],
+									"query": [
+										{
+											"key": "recursive",
+											"value": "false",
+											"description": "`boolean` (optional)\nDelete a folder even if it isn't empty.",
+											"disabled": true
+										},
+										{
+											"key": "permanent",
+											"value": "false",
+											"description": "`boolean` (optional)\nSkip the Trash (if present) and delete permanently.",
+											"disabled": true
+										}
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#folders-delete-a-folder)"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Files endpoints",
+					"item": [
+						{
+							"name": "Get Metadata about a specfic file",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/me/storage/files/$FILE_ID/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"me",
+										"storage",
+										"files",
+										"$FILE_ID",
+										""
+									]
+								},
+								"description": "[Link to our API reference](https://developers.kloudless.com/docs/v1/storage#files-retrieve-file-metadata)"
+							},
+							"response": []
+						},
+						{
+							"name": "Download the binary contents of the file",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/files/$FILE_ID/contents/?",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"files",
+										"$FILE_ID",
+										"contents",
+										""
+									],
+									"query": [
+										{
+											"key": "content_type",
+											"value": "",
+											"description": "`string` (optional)\nIf the file can be downloaded in multiple formats, this recommends a content type to use.",
+											"disabled": true
+										}
+									]
+								},
+								"description": "[Link to our API Reference](https://developers.kloudless.com/docs/v1/storage#files-download-a-file)"
+							},
+							"response": []
+						},
+						{
+							"name": "Get a thumbnail for a given file",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/files/$FILE_ID/thumbnail/?",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"files",
+										"$FILE_ID",
+										"thumbnail",
+										""
+									],
+									"query": [
+										{
+											"key": "image_format",
+											"value": "'png'",
+											"description": "`string` (optional)\nString specifier for thumbnail format 'png' or 'jpeg'.",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "256",
+											"description": "`string` (optional)\nSize, in pixels, defaults to 256.",
+											"disabled": true
+										}
+									]
+								},
+								"description": "[Link to the API reference](https://developers.kloudless.com/docs/v1/storage#files-download-a-thumbnail-for-a-file)"
+							},
+							"response": []
+						},
+						{
+							"name": "Upload a file",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/octet-stream"
+									},
+									{
+										"description": "JSON String. JSON string with the parent_id and name.",
+										"key": "X-Kloudless-Metadata",
+										"type": "text",
+										"value": "{\"parent_id\": \"root\", \"name\": \"\"}"
+									}
+								],
+								"body": {
+									"mode": "file",
+									"file": {
+										"src": ""
+									}
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/files/?",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"files",
+										""
+									],
+									"query": [
+										{
+											"key": "overwrite",
+											"value": "false",
+											"description": "Specifies whether to overwrite existing files",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Required Headers:\n\n* X-Kloudless-Metadata: A JSON string, with the attributes:\n  * parent_id: The ID of the folder to upload the file to.\n  * name: The name of the file being uploaded.\n\n\n[API Docs to upload a file](https://developers.kloudless.com/docs/v1/storage#files-upload-a-file)"
+							},
+							"response": []
+						},
+						{
+							"name": "Create an upload url for a file",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"parent_id\": \"string\",\n\t\"name\": \"string\"\n}"
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/files/upload_url/?",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"files",
+										"upload_url",
+										""
+									],
+									"query": [
+										{
+											"key": "overwrite",
+											"value": "false",
+											"description": "`boolean`(optional)\nSpecifies whether to overwrite existing files.",
+											"disabled": true
+										},
+										{
+											"key": "expires_in",
+											"value": "300",
+											"description": "`integer` (optional)\nHow long the upload url should last.",
+											"disabled": true
+										},
+										{
+											"key": "use_http",
+											"value": "false",
+											"description": "`boolean` (optional)\nWhether the url returned should use HTTP instead of HTTPS.",
+											"disabled": true
+										}
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#files-create-an-upload-url-for-a-file)"
+							},
+							"response": []
+						},
+						{
+							"name": "Copy a specific file",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/folders/$FILE_ID/copy/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"folders",
+										"$FILE_ID",
+										"copy",
+										""
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#files-copy-a-file)"
+							},
+							"response": []
+						},
+						{
+							"name": "Update contents of the file",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "file",
+									"file": {
+										"src": ""
+									}
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/files/$FILE_ID/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"files",
+										"$FILE_ID",
+										""
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#files-update-file-content)"
+							},
+							"response": []
+						},
+						{
+							"name": "Update a data about a specific file",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/files/$FILE_ID/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"files",
+										"$FILE_ID",
+										""
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#files-update-file-content)"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a specific file",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/files/$FILE_ID/?",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"files",
+										"$FILE_ID",
+										""
+									],
+									"query": [
+										{
+											"key": "permanent",
+											"value": "false",
+											"description": "`boolean` (optional)\nSkip the Trash (if present) and delete permanently.",
+											"disabled": true
+										}
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#files-delete-a-file)"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Permissions endpoints",
+					"item": [
+						{
+							"name": "Get permissions for a file",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/files/$FILE_ID/permissions/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"files",
+										"$FILE_ID",
+										"permissions",
+										""
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#permissions)"
+							},
+							"response": []
+						},
+						{
+							"name": "Get permissions for a folder",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/folders/$FOLDER_ID/permissions/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"folders",
+										"$FOLDER_ID",
+										"permissions",
+										""
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#permissions)"
+							},
+							"response": []
+						},
+						{
+							"name": "Set the permissions of a file",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/files/$FILE_ID/permissions/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"files",
+										"$FILE_ID",
+										"permissions",
+										""
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#permissions-set-permissions)"
+							},
+							"response": []
+						},
+						{
+							"name": "Update the permissions of a folder",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"type\": \"user\",\n        \"email\": \"reader@test.com\",\n        \"role\": \"reader\"\n    },\n    {\n        \"type\": \"user\",\n        \"id\": \"uGWK298eguSG2==\",\n        \"role\": \"writer\"\n   }\n]"
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/folders/$FOLDER_ID/permissions/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"folders",
+										"$FOLDER_ID",
+										"permissions",
+										""
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#permissions-set-permissions)"
+							},
+							"response": []
+						},
+						{
+							"name": "Update file permissions",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"type\": \"user\",\n        \"email\": \"reader@test.com\",\n        \"role\": \"reader\"\n    },\n    {\n        \"type\": \"user\",\n        \"id\": \"uGWK298eguSG2==\",\n        \"role\": \"writer\"\n   },\n   {\n        \"type\": \"group\",\n        \"id\": \"gNTQ==\",\n        \"role\": \"\"\n   }\n]"
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/files/$FILE_ID/permissions/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"files",
+										"$FILE_ID",
+										"permissions",
+										""
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#permissions-update-permissions)"
+							},
+							"response": []
+						},
+						{
+							"name": "Update folder permissions",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"type\": \"user\",\n        \"email\": \"reader@test.com\",\n        \"role\": \"reader\"\n    },\n    {\n        \"type\": \"user\",\n        \"id\": \"uGWK298eguSG2==\",\n        \"role\": \"writer\"\n   },\n   {\n        \"type\": \"group\",\n        \"id\": \"gNTQ==\",\n        \"role\": \"\"\n   }\n]"
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/folders/$FOLDER_ID/permissions/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"folders",
+										"$FOLDER_ID",
+										"permissions",
+										""
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#permissions-update-permissions)"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Properties endpoints",
+					"item": [
+						{
+							"name": "Get properties for a file",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/files/$FILE_ID/properties?",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"files",
+										"$FILE_ID",
+										"properties"
+									],
+									"query": [
+										{
+											"key": "active",
+											"value": "",
+											"description": "`boolean` (optional)\nRetieve only active or only inactive links if present.",
+											"disabled": true
+										},
+										{
+											"key": "page_size",
+											"value": "30",
+											"description": "`number` (optional)\nNumber of objects on each page. The `page_size` must be between `1` and `1000`.",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "",
+											"description": "`number` (optional)\nPage to return. `page_size` will set the number of objects returned on each page.",
+											"disabled": true
+										}
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#links-list-links)"
+							},
+							"response": []
+						},
+						{
+							"name": "Update file properties",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"key\": \"department\", # updates property (assuming it already exists)\n        \"value\": \"marketing\"\n    },\n    {\n        \"key\": \"readonly\", # deletes property\n        \"value\": null\n    },\n    {\n        \"key\": \"category\", # adds property (assuming it does not already exist)\n        \"value\": \"sales\"\n    }\n]"
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/files/$FILE_ID/properties/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"files",
+										"$FILE_ID",
+										"properties",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete properties of a file",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/files/$FILE_ID/properties",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"files",
+										"$FILE_ID",
+										"properties"
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#properties-delete-all-properties)"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Links endpoints",
+					"item": [
+						{
+							"name": "Links to the file at the service level",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/files/$FILE_ID/links/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"files",
+										"$FILE_ID",
+										"links",
+										""
+									]
+								},
+								"description": "[Link to our API reference](https://developers.kloudless.com/api-explorer/#!/accounts/storage_files_links_read)"
+							},
+							"response": []
+						},
+						{
+							"name": "Links to the folder at the service level",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/folders/$FOLDER_ID/links/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"folders",
+										"$FOLDER_ID",
+										"links",
+										""
+									]
+								},
+								"description": "[Link to our API reference](https://developers.kloudless.com/api-explorer/#!/accounts/storage_folders_links_read)"
+							},
+							"response": []
+						},
+						{
+							"name": "Links to the folder at the service-level",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/folders/$FOLDER_ID/links/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"folders",
+										"$FOLDER_ID",
+										"links",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List links created for this account",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/links?",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"links"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "",
+											"description": "`integer` (optional)\nA page number within the paginated result set.",
+											"disabled": true
+										},
+										{
+											"key": "page_size",
+											"value": "",
+											"description": "`integer` (optional)\nNumber of results to return per page.",
+											"disabled": true
+										},
+										{
+											"key": "ordering",
+											"value": "",
+											"description": "`string` (optional)\nWhich field to use when ordering the results.",
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "",
+											"description": "`boolean` (optional)",
+											"disabled": true
+										}
+									]
+								},
+								"description": "[Link to our API reference](https://developers.kloudless.com/docs/v1/storage#links-list-links)"
+							},
+							"response": []
+						},
+						{
+							"name": "Get information for a specific link",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/links/$LINK_ID/?",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"links",
+										"$LINK_ID",
+										""
+									],
+									"query": [
+										{
+											"key": "active",
+											"value": "",
+											"description": "`boolean` (optional)\nRetrieves only an active/inactive link, if present.",
+											"disabled": true
+										}
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#links-retrieve-a-link)"
+							},
+							"response": []
+						},
+						{
+							"name": "Update a specific link",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/links/$LINK_ID/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"links",
+										"$LINK_ID",
+										""
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#links-update-a-link)"
+							},
+							"response": []
+						},
+						{
+							"name": "Create a link for this account",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"active\": true,\n\t\"password\": \"string\",\n\t\"expiration\": \"string\",\n\t\"file_id\": \"string\",\n\t\"direct\": true\n}"
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/links/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"links",
+										""
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#links-create-a-link)"
+							},
+							"response": []
+						},
+						{
+							"name": "Links to the file at the service-level",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/files/$FILE_ID/links/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"files",
+										"$FILE_ID",
+										"links",
+										""
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#links-delete-a-link)"
+							},
+							"response": []
+						},
+						{
+							"name": "Links to the folder at the service-level",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/folders/$FOLDER_ID/links/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"folders",
+										"$FOLDER_ID",
+										"links",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a specific link",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{base-url}}/accounts/me/storage/links/$LINK_ID/",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"storage",
+										"links",
+										"$LINK_ID",
+										""
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#links-delete-a-link)"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Events endpoints",
+					"item": [
+						{
+							"name": "List Events",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/accounts/me/events?",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"accounts",
+										"me",
+										"events"
+									],
+									"query": [
+										{
+											"key": "cursor",
+											"value": "",
+											"description": "`string` (optional)\nThe last cursor in the event stream that your application has seen. The cursor can also be set to `after-auth`, which will retrieve events that have occurred after the account was connected. This is useful if prior events are unnecessary.\n\nThis parameter cannot be used with `from` and `until`. Subsequent cursors returned by a request using those parameters will be restricted to the time range specified in the first request.\n\nIn addition, the latest `upstream_cursor` can be provided as a cursor to retrieve any events after that point in the event stream.",
+											"disabled": true
+										},
+										{
+											"key": "page_size",
+											"value": "1000",
+											"description": "`number` (optional)\nNumber of events in the stream to return, if available. The `page_size` must be greater than or equal to `1` and less than or equal to `1000`. Treated as advisory.",
+											"disabled": true
+										},
+										{
+											"key": "from",
+											"value": "",
+											"description": "`string` (optional)\nAn ISO-8601 string specifying the time of the oldest event in the range to return (inclusive). Can be used without `until`.",
+											"disabled": true
+										},
+										{
+											"key": "until",
+											"value": "",
+											"description": "`string` (optional)\nAn ISO-8601 string specifying the latest time prior to which to return events (exclusive). Must be used along with `from`. Non-overlapping queries can be performed since the event times are in the range [`from`, `until`). Future cursor values returned are limited in range to the `until` value provided in the first request.",
+											"disabled": true
+										}
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/events#events-list-events)"
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve latest cursor",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}} /accounts/me/events/latest",
+									"host": [
+										"{{base-url}} "
+									],
+									"path": [
+										"accounts",
+										"me",
+										"events",
+										"latest"
+									]
+								},
+								"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/events#events-retrieve-latest-cursor)"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get usage quota data for a service account",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/accounts/me/storage/quota/?",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"accounts",
+								"me",
+								"storage",
+								"quota",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "",
+									"description": "`integer` (optional)\nA page number within the paginated result set.",
+									"disabled": true
+								},
+								{
+									"key": "page_size",
+									"value": "",
+									"description": "`integer` (optional)\nNumber of results to return per page.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#other-storage-quota)"
+					},
+					"response": []
+				},
+				{
+					"name": "Search the files in the service account",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/accounts/me/storage/search/?q=",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"accounts",
+								"me",
+								"storage",
+								"search",
+								""
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "",
+									"description": "`string`\nTerms to search cloud storage for."
+								},
+								{
+									"key": "lang",
+									"value": "keyword",
+									"description": "`string` (optional)\nType of Search query. `keyword` is the default and will search the service for specific terms, using the service’s capabilities. `raw` will search the service using the service’s own query language. `cmis` is intended for CMIS queries.",
+									"disabled": true
+								},
+								{
+									"key": "parents",
+									"value": "",
+									"description": "`string` (optioanl)\nFolder IDs to search on, delimited by commas.",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "`integer` (optional)\nThe page to return of a paginated list.",
+									"disabled": true
+								},
+								{
+									"key": "page_size",
+									"value": "",
+									"description": "`integer` (optional)\nNumber of results to return per page.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "[Link to API reference](https://developers.kloudless.com/docs/v1/storage#locate-files-search)"
+					},
+					"response": []
+				},
+				{
+					"name": "Convert raw resource ID",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"raw_id\": \"Example_Raw_ID\",\n  \"type\": \"file\"\n}"
+						},
+						"url": {
+							"raw": "{{base-url}}/accounts/me/storage/convert_id/?",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"accounts",
+								"me",
+								"storage",
+								"convert_id",
+								""
+							],
+							"query": [
+								{
+									"key": "retrieve_metadata",
+									"value": "false",
+									"description": "`boolean` (optional)\nReturns resource metadata.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "KloudlessApiExplorer",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://developers.kloudless.com/api-explorer",
+							"protocol": "https",
+							"host": [
+								"developers",
+								"kloudless",
+								"com"
+							],
+							"path": [
+								"api-explorer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "accessToken",
+				"value": "{{accessToken}}",
+				"type": "string"
+			},
+			{
+				"key": "tokenType",
+				"value": "Bearer",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"function error(msg) {",
+					"    throw new Error(msg);",
+					"}",
+					"",
+					"function checkForIdInUrl(path) {",
+					"    path.forEach((item) => {",
+					"        if (item.startsWith('$')) {",
+					"            let msg = `Please replace \"${item}\" in the URL with an actual ID.`;",
+					"            error(msg);",
+					"        }",
+					"    });",
+					"}",
+					"",
+					"if (!pm.environment.get('base-url') &&",
+					"    pm.request.url.host[0].indexOf('base-url') > -1) {",
+					"    error(\"Please select the Kloudless environment to set the base URL.\");",
+					"}",
+					"",
+					"checkForIdInUrl(pm.request.url.path);"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

@@ -1,0 +1,263 @@
+{
+	"info": {
+		"_postman_id": "c3634bcb-1cff-4b4f-86bf-1e0190eefc87",
+		"name": "Jira",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "JQL",
+			"item": [
+				{
+					"name": "GET all issue from project=RA",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "rajalakshmi.govindarajan@testleaf.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "kEJxzmhkQzvdeP8iysWN2D1B",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"jql\":\"project=RA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api-mar2020.atlassian.net/rest/api/2/search",
+							"protocol": "https",
+							"host": [
+								"api-mar2020",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"2",
+								"search"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "JQL- Q1"
+					},
+					"response": []
+				},
+				{
+					"name": "List for specific issue id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "rajalakshmi.govindarajan@testleaf.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "kEJxzmhkQzvdeP8iysWN2D1B",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api-mar2020.atlassian.net/rest/api/2/issuetype?id=10001",
+							"protocol": "https",
+							"host": [
+								"api-mar2020",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"2",
+								"issuetype"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "10001"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create an issue in Jira",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "kEJxzmhkQzvdeP8iysWN2D1B",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "rajalakshmi.govindarajan@testleaf.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fields\":\r\n    {\r\n        \"project\":\r\n        {\r\n            \"key\":\"MAR\"\r\n        },\r\n            \"summary\":\"createissueinRAproject\",\r\n            \"description\":\"CreatinganissueusingprojectkeysandissuetypenamesusingtheRESTAPI\",\r\n            \"issuetype\":{\r\n                        \"name\":\"Bug\"\r\n                        }\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api-mar2020.atlassian.net/rest/api/2/issue",
+							"protocol": "https",
+							"host": [
+								"api-mar2020",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"2",
+								"issue"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ctreate an attachment for the new issue",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api-mar2020.atlassian.net/rest/api/2/issue/",
+							"protocol": "https",
+							"host": [
+								"api-mar2020",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"2",
+								"issue",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search issue based on the issue Id or key ",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api-may2020.atlassian.net/rest/api/2/issuetype?id=10005",
+							"protocol": "https",
+							"host": [
+								"api-may2020",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"2",
+								"issuetype"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "10005"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "kEJxzmhkQzvdeP8iysWN2D1B",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "rajalakshmi.govindarajan@testleaf.com",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}

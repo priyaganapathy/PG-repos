@@ -1,0 +1,941 @@
+{
+	"info": {
+		"_postman_id": "f0bb227c-02df-44c4-a267-10a5e5efc77d",
+		"name": "ServiceNow",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Incidents",
+			"item": [
+				{
+					"name": "Create new incident - with no inputs",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://dev58297.service-now.com/api/now/table/incident",
+							"protocol": "https",
+							"host": [
+								"dev58297",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"incident"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new incident - with Short desc, catg,priority",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Caller\":\"Abel Tuter\",\r\n    \"short_description\":\"This incident is created using API\",\r\n    \"category\":\"software\",\r\n    \"priority\":\"1\"\r\n\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dev58297.service-now.com/api/now/table/incident",
+							"protocol": "https",
+							"host": [
+								"dev58297",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"incident"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://api-mar2020.atlassian.net/rest/api/2/issue/12166",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api-mar2020.atlassian.net/rest/api/2/issue/12166",
+							"protocol": "https",
+							"host": [
+								"api-mar2020",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"2",
+								"issue",
+								"12166"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://confluence.atlassian.com/cloud/deprecation-of-basic-authentication-with-passwords-for-jira-and-confluence-apis-972355348.html",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://confluence.atlassian.com/cloud/deprecation-of-basic-authentication-with-passwords-for-jira-and-confluence-apis-972355348.html",
+							"protocol": "https",
+							"host": [
+								"confluence",
+								"atlassian",
+								"com"
+							],
+							"path": [
+								"cloud",
+								"deprecation-of-basic-authentication-with-passwords-for-jira-and-confluence-apis-972355348.html"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Incidents from Service Now With no filters",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dev58297.service-now.com/api/now/table/incident",
+							"protocol": "https",
+							"host": [
+								"dev58297",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"incident"
+							],
+							"query": [
+								{
+									"key": "accept",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Incidents-Search by Incident number",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dev58297.service-now.com/api/now/table/incident?number=INC0000060&sysparm_fields=number,sys_id,priority,short_description",
+							"protocol": "https",
+							"host": [
+								"dev58297",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"incident"
+							],
+							"query": [
+								{
+									"key": "number",
+									"value": "INC0000060"
+								},
+								{
+									"key": "sysparm_fields",
+									"value": "number,sys_id,priority,short_description"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Incidents-Search by Priority",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dev58297.service-now.com/api/now/table/incident?priority=2",
+							"protocol": "https",
+							"host": [
+								"dev58297",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"incident"
+							],
+							"query": [
+								{
+									"key": "number",
+									"value": "INC0000060",
+									"disabled": true
+								},
+								{
+									"key": "priority",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Incidents-Search by Incident number and Response by XML",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dev58297.service-now.com/api/now/table/incident?number=INC0000060&sysparm_fields=number,sys_id,priority,short_description",
+							"protocol": "https",
+							"host": [
+								"dev58297",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"incident"
+							],
+							"query": [
+								{
+									"key": "number",
+									"value": "INC0000060"
+								},
+								{
+									"key": "sysparm_fields",
+									"value": "number,sys_id,priority,short_description"
+								},
+								{
+									"key": "accept",
+									"value": "application/xml",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "PriyaG@2020",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "admin",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Changerequest",
+			"item": [
+				{
+					"name": "Get for specific change req-number=CHG0040007",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "PriyaG@2020",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "tecdune@tecdune.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Whitehall2020!",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://dev58297.service-now.com/api/now/table/change_request?number=CHG0040007",
+							"protocol": "https",
+							"host": [
+								"dev58297",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"change_request"
+							],
+							"query": [
+								{
+									"key": "number",
+									"value": "CHG0040007"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Response in XML format",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "PriyaG@2020",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "tecdune@tecdune.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "Whitehall2020!",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "https://dev58297.service-now.com/api/now/table/change_request",
+							"protocol": "https",
+							"host": [
+								"dev58297",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"change_request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all CR's with no filters",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "PriyaG@2020",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://dev58297.service-now.com/api/now/table/change_request",
+							"protocol": "https",
+							"host": [
+								"dev58297",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"change_request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all CR's with number and priority query param",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "PriyaG@2020",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://dev58297.service-now.com/api/now/table/change_request?sysparm_fields=number, priority",
+							"protocol": "https",
+							"host": [
+								"dev58297",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"change_request"
+							],
+							"query": [
+								{
+									"key": "sysparm_fields",
+									"value": "number, priority"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "A new change req-no fields",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "PriyaG@2020",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dev58297.service-now.com/api/now/table/change_request",
+							"protocol": "https",
+							"host": [
+								"dev58297",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"change_request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "A new change req-no fields-Classwork",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "PriyaG@2020",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"short_description\":\"My update\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dev58297.service-now.com/api/now/table/change_request",
+							"protocol": "https",
+							"host": [
+								"dev58297",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"change_request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Change req with JSON in body",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "PriyaG@2020",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"short_description\":\"Priya Ganapathy\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dev58297.service-now.com/api/now/table/change_request",
+							"protocol": "https",
+							"host": [
+								"dev58297",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"change_request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Change req with JSON in body with ACCEPT and CONTENT -XML",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "PriyaG@2020",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "ACCEPT",
+								"value": "application/xml",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<request>\r\n<entry>\r\n<short_description>This CR is from Postman \r\n</short_description>\r\n</entry>\r\n</request>"
+						},
+						"url": {
+							"raw": "https://dev58297.service-now.com/api/now/table/change_request",
+							"protocol": "https",
+							"host": [
+								"dev58297",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"change_request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete d3ef6803db2c2010fa2be04a489619fd sysid",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://dev58297.service-now.com/api/now/table/change_request/d3ef6803db2c2010fa2be04a489619fd",
+							"protocol": "https",
+							"host": [
+								"dev58297",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"change_request",
+								"d3ef6803db2c2010fa2be04a489619fd"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chaining",
+			"item": [
+				{
+					"name": "A new CR with no fields-Classwork",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var resp =pm.response.json();\r",
+									"console.log(resp);\r",
+									"var sys_id_local = resp.result.sys_id\r",
+									"console.log(\"THe newly created system id is\"+sys_id_local);\r",
+									"pm.globals.set(\"gbl_sys_id\",sys_id_local);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/api/now/table/{{coll_table_name}}?sysparm_fields=sys_id",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"{{coll_table_name}}"
+							],
+							"query": [
+								{
+									"key": "sysparm_fields",
+									"value": "sys_id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete the CR using the sysid created",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/api/now/table/{{coll_table_name}}/{{gbl_sys_id}}",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"{{coll_table_name}}",
+								"{{gbl_sys_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Chain few requests\r\n1. Cretae a new incident--Sys_id\r\n2. Delete the incident using the above sys_id"
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "PriyaG@2020",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "admin",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "coll_table_name",
+			"value": ""
+		}
+	]
+}
