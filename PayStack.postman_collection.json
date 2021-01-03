@@ -1,0 +1,413 @@
+{
+	"info": {
+		"_postman_id": "8dd2fb0d-497a-4fcd-b8a2-bffb75de1c4f",
+		"name": "PayStack",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Subscription",
+			"item": [
+				{
+					"name": "Create New Subscription",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"customer\":\"CUS_w2wwmgy4jvei3ux\",\r\n\"plan\":\"PLN_sich1tftxqj0d9y\"\r\n}"
+						},
+						"url": {
+							"raw": "{{base-url}}/subscription",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"subscription"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Disable Subscription",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"code\":\"SUB_vsyqdmlzble3uii\",\r\n    \"token\":\"d7gofp6yppn3qz7\"\r\n}"
+						},
+						"url": {
+							"raw": "{{base-url}}/subscription/disable",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"subscription",
+								"disable"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Subscription",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base-url}}/subscription/SUB_vsyqdmlzble3uii",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"subscription",
+								"SUB_vsyqdmlzble3uii"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enable Subscription",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"code\":\"SUB_vsyqdmlzble3uii\",\r\n    \"token\":\"d7gofp6yppn3qz7\"\r\n}"
+						},
+						"url": {
+							"raw": "{{base-url}}/subscription/enable",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"subscription",
+								"enable"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "sk_test_28d0f32494534790462219dc1b95e2dc6a27d4ef",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "Create customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"customer2@mailinator.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/customer",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get customer list",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/customer",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"customer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Plan",
+			"item": [
+				{
+					"name": "Create Plan",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Name4\",\r\n    \"interval\":\"annually\",\r\n    \"currency\":\"ZAR\",\r\n    \"amount\":\"7000000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/plan",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"plan"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transaction",
+			"item": [
+				{
+					"name": "Initialise transaction",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"customer1@mailinator.com\",\r\n  \"amount\": \"7000\",\r\n  \"currency\": \"ZAR\",\r\n  \"metadata\": {\r\n        \"custom_fields\": [\r\n            {\r\n                \"display_name\": \"Mobile Number\",\r\n                \"variable_name\": \"mobile_number\",\r\n                \"value\": \"+2348012345678\"\r\n            }\r\n        ]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/transaction/initialize",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"transaction",
+								"initialize"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payment",
+			"item": [
+				{
+					"name": "Create payment page",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Trial3\",\r\n    \"interval\":\"monthly\",\r\n    \"amount\":\"500000\",\r\n    \"plan\":\"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/page",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"page"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all payment pages",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base-url}}/page",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"page"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get newly payment page",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base-url}}/page/?plan_code=73086",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"page",
+								""
+							],
+							"query": [
+								{
+									"key": "plan_code",
+									"value": "73086"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "sk_test_28d0f32494534790462219dc1b95e2dc6a27d4ef",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
