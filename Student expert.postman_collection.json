@@ -1,0 +1,748 @@
+{
+	"info": {
+		"_postman_id": "eb13340f-0fa6-43e7-98fa-b51e333b0094",
+		"name": "Student expert",
+		"description": "Learn the skills to become a certified Postman Student Expert.\r\nMake sure you have registered for the Postman Student Program before you begin the training so that we can track your submission and keep you informed about future opportunities! bit.ly/postman-student-application\r\n\r\nWhen you're ready, import the template into Postman, open the first request and hit Send. The template will walk you through next steps. When you're finished, submit your collection link to request your Postman Student Expert badge and the team will be in touch within a couple of weeks.\r\n\r\nStudent expert\r\n\r\nLearn the skills to become a certified Postman Student Expert.\r\n\r\nAUTHORIZATION\r\n\r\nAPI Key\r\n\r\nKey<key>\r\nValue{{email_key}}\r\n1. Begin training - Requests\r\n\r\nAUTHORIZATION\r\n\r\nAPI Key\r\n\r\nThis request is using an authorization helper from collection Student expert\r\nGET 0. Start training \r\npostman-student-expert.glitch.me/training\r\nAUTHORIZATION\r\n\r\nAPI Key\r\n\r\nThis request is using an authorization helper from collection Student expert",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Begin training - Requests",
+			"item": [
+				{
+					"name": "0. Start training",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "nXY5RHloDMqNKefTbD6_2L1mT6tGys4OYl5jXM1pRmCgsuiE",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "api_key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{training_api}}/training",
+							"host": [
+								"{{training_api}}"
+							],
+							"path": [
+								"training"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1. Get matches",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{training_api}}/matches?status=played&team=United",
+							"host": [
+								"{{training_api}}"
+							],
+							"path": [
+								"matches"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "played"
+								},
+								{
+									"key": "team",
+									"value": "United"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Add match",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"against\": \"Academical\",\r\n  \"match\": \"Cup Final\",\r\n  \"when\": \"{{$randomDateFuture}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{training_api}}/match",
+							"host": [
+								"{{training_api}}"
+							],
+							"path": [
+								"match"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Update Score",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"points\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{training_api}}/match?match_id=hRYyHyfhW",
+							"host": [
+								"{{training_api}}"
+							],
+							"path": [
+								"match"
+							],
+							"query": [
+								{
+									"key": "match_id",
+									"value": "hRYyHyfhW"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Match",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{training_api}}/match/:match_id",
+							"host": [
+								"{{training_api}}"
+							],
+							"path": [
+								"match",
+								":match_id"
+							],
+							"variable": [
+								{
+									"key": "match_id",
+									"value": "hRYyHyfhW"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. Scripting and Collection Runs",
+			"item": [
+				{
+					"name": "Get all players",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.response.to.have.status(200); \r",
+									"});\r",
+									"var player_list=pm.response.json().data.players;\r",
+									"pm.environment.set('player_id', player_list[Math.floor(Math.random() * player_list.length)].id);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{mock_url}}/players",
+							"host": [
+								"{{mock_url}}"
+							],
+							"path": [
+								"players"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get specific player",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"if(pm.response.json().data.played<750) postman.setNextRequest('Get all players');"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"if(!pm.variables.get('player_id')) pm.variables.set('player_id', -1);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{mock_url}}/player?id={{player_id}}",
+							"host": [
+								"{{mock_url}}"
+							],
+							"path": [
+								"player"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{player_id}}"
+								}
+							]
+						},
+						"description": "Get a specific player by passing ID as a query param\r\n\r\n*Use the parameter name ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get stats",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test('Stats include all fields', function () {\r",
+									"    var jsonData = pm.response.json().data;\r",
+									"    pm.expect(jsonData).to.have.all.keys('won', 'lost', 'drew');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{mock_url}}/stats",
+							"host": [
+								"{{mock_url}}"
+							],
+							"path": [
+								"stats"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. Check Progress",
+			"item": [
+				{
+					"name": "Skill check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData= JSON.parse(responseBody);\r",
+									"var responseData=\"\";\r",
+									"pm.test('SkillCheck',function(){\r",
+									"pm.environment.set('responseData', jsonData.rand);\r",
+									"console.log(jsonData.rand)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "loads",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "auth_key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "user-id",
+								"value": "{{userId}}",
+								"type": "text",
+								"description": "plz don't edit or remove this header"
+							},
+							{
+								"key": "course",
+								"value": "{{myCourse}}",
+								"type": "text",
+								"description": "plz don't edit or remove this header"
+							},
+							{
+								"key": "response-value",
+								"value": "{{responseData}}",
+								"type": "text",
+								"description": "plz don't edit or remove this header"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"PriyaGanapathy\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "postman-skill-checker.glitch.me/skills?email=ganapathy.priya@gmail.com",
+							"host": [
+								"postman-skill-checker",
+								"glitch",
+								"me"
+							],
+							"path": [
+								"skills"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "ganapathy.priya@gmail.com"
+								}
+							]
+						},
+						"description": "Hit **Send**, complete each requirement and keep sending until you get a success response!"
+					},
+					"response": []
+				},
+				{
+					"name": "Test collection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//auth details at collection level",
+									"let authObj = pm.response.json().auth;",
+									"//request array",
+									"let requestArr = pm.response.json().item[0].item;",
+									"//mock array ",
+									"let mockArr = pm.response.json().item[1].item;",
+									"//checks array",
+									"let checksArr = pm.response.json().item[2].item;",
+									"",
+									"//info",
+									"pm.test(\"Once all of your tests are passing, save your collection, update the link via the Share flow, and submit it: bit.ly/student-expert-submission\", () =>{",
+									"    pm.expect(true).to.eql(true);",
+									"})",
+									"",
+									"//used auth",
+									"pm.test(\"Authorized requests\", () => {",
+									"    pm.expect(authObj).to.be.an(\"object\");",
+									"    pm.expect(authObj).to.have.property(\"apikey\"); ",
+									"    console.log(authObj);",
+									"});",
+									"",
+									"//used all required methods",
+									"pm.test(\"Used GET, POST, PUT, DELETE methods\", () => {",
+									"    //first folder should have all methods in requests",
+									"    let methArr = requestArr.map(value => value.request.method); ",
+									"    console.log(methArr);",
+									"    pm.expect(methArr).to.include.members([\"GET\", \"POST\", \"PUT\", \"DELETE\"]);",
+									"});",
+									"",
+									"//used params - query and path",
+									"pm.test(\"Used query and path parameters\", () => {",
+									"    //first folder should have query",
+									"    let queryArr = requestArr.filter(value => value.request.url.query).map(value => value.request.url.query);",
+									"    console.log(queryArr);",
+									"    pm.expect(queryArr).to.have.length.of.above(0);",
+									"    //first folder should also have path",
+									"    let pathArr = requestArr.filter(value => value.request.url.path).map(value => value.request.url.path);",
+									"    var pathParams = pathArr.flat().filter(p => p.startsWith(':')); ",
+									"    console.log(pathParams);",
+									"    pm.expect(pathParams).to.have.length.of.above(0);",
+									"});",
+									"",
+									"//sent body",
+									"pm.test(\"Sent body data\", () => {",
+									"    //first folder should have a body",
+									"    let bodyArr = requestArr.filter(value => value.request.body).map(value => value.request.body); ",
+									"    console.log(bodyArr);",
+									"    pm.expect(bodyArr).to.have.length.of.above(0);",
+									"});",
+									"",
+									"//used vars (can currently only check env with run output - future enhancement - atm check set env var from script)",
+									"pm.test(\"Used variables\", () => {",
+									"    //should be a var reference in query param for mock folder",
+									"    let varsArr = mockArr.filter(value => value.request.url.query).map(value => value.request.url.query);",
+									"    let queries = varsArr.flat().filter(value => value.value).map(value => value.value);",
+									"    var queryVars = queries.filter(p => encodeURI(p).indexOf('%7B%7B')>-1); ",
+									"    console.log(queryVars);",
+									"    pm.expect(queryVars).to.have.length.of.above(0);",
+									"    //base path for main folder should also use var",
+									"    //url is object when path or query param, string otherwise",
+									"    let addresses = requestArr.filter(value => value.request.url.raw ? value.request.url.raw : value.request.url).map(value => value.request.url.raw ? value.request.url.raw : value.request.url);",
+									"    var addressVars = addresses.filter(p => encodeURI(p).indexOf('%7B%7B')>-1); ",
+									"    console.log(addressVars);",
+									"    pm.expect(addressVars).to.have.length.of.above(0);",
+									"    //auth should also use var",
+									"    pm.expect(encodeURI(authObj.apikey.value).indexOf('%7B%7B')).to.be.above(-1);",
+									"",
+									"});",
+									"",
+									"//assed description",
+									"pm.test(\"Added request description\", () => {",
+									"    //second folder should have a description",
+									"    let descArr = mockArr.filter(value => value.request.description).map(value => value.request.description);",
+									"    console.log(descArr);",
+									"    pm.expect(descArr).to.have.length.of.above(0);",
+									"});",
+									"",
+									"//set var from script and next request - make it env var so we check that too",
+									"pm.test(\"Set env variable from script and set next request\", () => {",
+									"    //second folder should have set var and next req",
+									"    let testsArr = mockArr.filter(value => value.event).map(value => value.event); ",
+									"    console.log(testsArr);",
+									"    let execArr = testsArr.flat().filter(value => value.script.exec).map(value => value.script.exec); ",
+									"    var setsVars = execArr.flat().filter(p => p.indexOf('environment.set(')>-1); ",
+									"    console.log(setsVars);",
+									"    pm.expect(setsVars).to.have.length.of.above(0);",
+									"    var setsReqs = execArr.flat().filter(p => p.indexOf('.setNextRequest')>-1); ",
+									"    console.log(setsReqs);",
+									"    pm.expect(setsReqs).to.have.length.of.above(0);",
+									"});",
+									"//add skill check test",
+									"pm.test('Skills checked', () =>{",
+									"    var vars = pm.response.json().variable.map(value => value.key);",
+									"    pm.expect(vars).to.include('skilled');",
+									"});",
+									"//check pulled response property",
+									"pm.test('Skill check code retrieving set var value from response property', () => {",
+									"    //need to make sure set var from response json in skill check request - third folder",
+									"        //need to make sure set var from response json in skill check request - third folder",
+									"    pm.expect(JSON.stringify(checksArr[0].event[0].script).indexOf('.rand')).to.be.greaterThan(-1);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{your-collection-link-here}}",
+							"host": [
+								"{{your-collection-link-here}}"
+							]
+						},
+						"description": "Paste your collection public link in as the address and send, checking the test results to see if you completed this step."
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var uID = pm.collectionVariables.get(\"userId\");",
+							"if(!uID)",
+							"    pm.collectionVariables.set(\"userId\", pm.variables.replaceIn('{{$guid}}'));",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var template = `",
+							"<!--showdown for converting md to html-->",
+							"    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js\"></script>",
+							"    <script type=\"text/javascript\">",
+							"        function getContent(orig){",
+							"            var converter = new showdown.Converter(), text = orig, html = converter.makeHtml(text);",
+							"            return html;",
+							"        }",
+							"    </script>",
+							"<h1>{{response.title}}</h1>",
+							"<p>",
+							"<script type=\"text/javascript\">",
+							"    document.write(getContent(\"{{response.intro}}\"));",
+							"</script>",
+							"</p>",
+							"<div id='skills'></div>",
+							"<script type=\"text/javascript\">",
+							"pm.getData(function(error, data) {",
+							"    let skills=data.response.skills; let i; let skillList=\"\"; console.log(skills.length)",
+							"    for(i=0; i<skills.length; i++){",
+							"        let done = skills[i].value ? \"&#9989;\" : \"&#10060;\"",
+							"        skillList+=\"<strong>\"+(i+1)+\". \"+skills[i].name+\"</strong> \"+done+getContent(skills[i].hint);",
+							"    }",
+							"    document.getElementById('skills').innerHTML=skillList;",
+							"});",
+							"</script>",
+							"`;",
+							"",
+							"// Set visualizer",
+							"pm.visualizer.set(template, {",
+							"    // Pass the response body parsed as JSON as `data`",
+							"    response: pm.response.json()",
+							"});",
+							"",
+							"if(pm.response.json().done) pm.collectionVariables.set('skilled', true);"
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "key",
+				"value": "match_key",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "{{email_key}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"var template = `",
+					"    <!--showdown for converting md to html-->",
+					"    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js\"></script>",
+					"    <script type=\"text/javascript\">",
+					"        function getContent(orig){",
+					"            var converter = new showdown.Converter(), text = orig, html = converter.makeHtml(text);",
+					"            return html;",
+					"        }",
+					"    </script>",
+					"    ",
+					"    <!--syntax highlighting-->",
+					"    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.0/styles/default.min.css\">",
+					"    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.0/highlight.min.js\"></script>",
+					"    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.0/styles/googlecode.min.css\">",
+					"    ",
+					"    <!--generic styles-->",
+					"    <style type=\"text/css\">",
+					"    #notes p, #next p {padding-left:20px; border-left:2px solid #333333; }",
+					"    #notes, #next {padding-right:20px;}",
+					"    img {max-width:600px; padding-left:20px; padding-bottom:20px;}",
+					"    </style>",
+					"",
+					"    <h2 style=\"color: {{status}}\">{{response.tutorial.title}}</h2>",
+					"    ",
+					"    <div id=\"intro\"></div>",
+					"",
+					"    <div id=\"notes\"></div>",
+					"    ",
+					"    {{#if response.tutorial.next}}",
+					"    <h3>Next</h3>",
+					"    <div id=\"next\"></div>",
+					"    {{/if}}",
+					"    ",
+					"    <script type=\"text/javascript\">",
+					"        if(\"{{response.tutorial.rip}}\".length>0)",
+					"            document.write(getContent(\"{{response.tutorial.rip}}\"));",
+					"    </script>",
+					"    ",
+					"    <script type=\"text/javascript\">",
+					"        if(\"{{response.tutorial.pic}}\".length>0)",
+					"            document.write(\"<img src='{{response.tutorial.pic}}' alt='postman steps'/>\");",
+					"    </script>",
+					"",
+					"    <!--content to process before rendering-->",
+					"    <script type=\"text/javascript\">",
+					"        pm.getData(function(error, data) {",
+					"            var tut = data.response.tutorial;",
+					"            if(tut){",
+					"                if(tut.steps){",
+					"                    var i; ",
+					"                    var infoArray = tut.steps;",
+					"                    var notes=\"<div id='notes'>\";",
+					"                    for(i=0; i<infoArray.length; i++){",
+					"                        notes+=getContent(infoArray[i].note);",
+					"                        if(infoArray[i].raw_data){",
+					"                            notes+=\"<pre style='padding-left:20px'><code class='json'>\"+JSON.stringify(infoArray[i].raw_data, null, 2)+\"</code></pre>\";",
+					"                        }",
+					"                        if(infoArray[i].js_code){",
+					"                            var c;",
+					"                            notes+=\"<pre style='padding-left:20px'><code class='js'>\";",
+					"                            for(c=0; c<infoArray[i].js_code.length; c++)",
+					"                                notes+=infoArray[i].js_code[c]+\"<br/>\";",
+					"                            notes+=\"</code></pre>\";",
+					"                        }",
+					"                        if(infoArray[i].ref_data){",
+					"                            notes+=\"<pre style='padding-left:20px'><code class='json'>\"+JSON.stringify(data.response[infoArray[i].ref_data], null, 2)+\"</code></pre>\";",
+					"                        }",
+					"                        if(infoArray[i].pic)",
+					"                            notes+=\"<img src='\"+infoArray[i].pic+\"' alt='postman steps'/>\";",
+					"                    }",
+					"                    notes+=\"</div>\"",
+					"                    document.getElementById(\"notes\").innerHTML=notes;",
+					"                }",
+					"                document.getElementById(\"intro\").innerHTML=getContent(tut.intro);",
+					"                if(tut.next){",
+					"                    var nextDiv=document.getElementById(\"next\");",
+					"                    var n;",
+					"                    var nextContent=\"\";",
+					"                    var nextArray=tut.next;",
+					"                    for(n=0; n<nextArray.length; n++){",
+					"                        nextContent+=getContent(nextArray[n].step);",
+					"                        if(nextArray[n].raw_data){",
+					"                            nextContent+=\"<pre style='padding-left:20px'><code class='json'>\"+JSON.    stringify(nextArray[n].raw_data, null, 2)+\"</code></pre>\";",
+					"                        }",
+					"                        if(nextArray[n].js_code){",
+					"                            var c;",
+					"                            nextContent+=\"<pre style='padding-left:20px'><code class='js'>\";",
+					"                            for(c=0; c<nextArray[n].js_code.length; c++)",
+					"                                nextContent+=nextArray[n].js_code[c];",
+					"                            nextContent+=\"</code></pre>\";",
+					"                        }",
+					"                        if(nextArray[n].pic)",
+					"                            nextContent+=\"<img src='\"+nextArray[n].pic+\"' alt='postman steps'/>\";",
+					"                    }",
+					"                    nextDiv.innerHTML=getContent(nextContent);",
+					"                }",
+					"            }",
+					"            hljs.initHighlighting();",
+					"        });",
+					"    </script>",
+					"`;",
+					"if (pm.response.headers.get(\"Content-Type\").includes(\"json\")) {",
+					"  pm.visualizer.set(template, {",
+					"    response: pm.response.json(),",
+					"    status: (\"\" + pm.response.code).startsWith(\"4\") ? \"#cc0000\" : \"#000000\"",
+					"  });",
+					"} else if (pm.response.headers.get(\"Content-Type\").includes(\"html\")) {",
+					"  pm.visualizer.set(`{{info}}`, {",
+					"    info:",
+					"      \"Hmm this seems to be HTML and not JSON - you might have hit an invalid endpoint - undo your changes, or close the request without saving and try opening / sending it again!\"",
+					"  });",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "mock_url",
+			"value": "https://d78ddda7-4a57-40b3-badf-fa500035e260.mock.pstmn.io"
+		},
+		{
+			"key": "userId",
+			"value": ""
+		},
+		{
+			"key": "training_api",
+			"value": "postman-student-expert.glitch.me"
+		},
+		{
+			"key": "email_key",
+			"value": "ganapathy.priya@gmail.com"
+		},
+		{
+			"key": "myCourse",
+			"value": "Postman is Interesting"
+		},
+		{
+			"key": "responseData",
+			"value": ""
+		},
+		{
+			"key": "skilled",
+			"value": ""
+		}
+	]
+}
